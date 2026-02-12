@@ -31,6 +31,15 @@ data class PrayerTime(
     }
 }
 
+// MARK: - Prayer Data Helper (for constructing prayer lists)
+private data class PrayerData(
+    val name: String,
+    val arabicName: String,
+    val timeValue: String,  // Can be timeString for API or time value for local calculation
+    val icon: String,
+    val isPrayer: Boolean
+)
+
 // MARK: - Calculation Method
 enum class CalculationMethod(val displayName: String) {
     MWL("Muslim World League"),
@@ -185,15 +194,22 @@ class PrayerTimeService(private val context: Context) {
             val timings = apiData.timings
             
             val prayers = listOf(
-                "Fajr" to "الفجر" to timings.Fajr to "sun_horizon" to true,
-                "Shuruq" to "الشروق" to timings.Sunrise to "sunrise" to false,
-                "Dhuhr" to "الظهر" to timings.Dhuhr to "sun_max" to true,
-                "Asr" to "العصر" to timings.Asr to "sun_min" to true,
-                "Maghrib" to "المغرب" to timings.Maghrib to "sunset" to true,
-                "Isha" to "العشاء" to timings.Isha to "moon_stars" to true
-            ).mapNotNull { (name, arabicName, timeString, icon, isPrayer) ->
-                parseAPITime(timeString, date, deviceTimezone)?.let { prayerDate ->
-                    PrayerTime(name, arabicName, prayerDate, icon, isPrayer, deviceTimezone)
+                PrayerData("Fajr", "الفجر", timings.Fajr, "sun_horizon", true),
+                PrayerData("Shuruq", "الشروق", timings.Sunrise, "sunrise", false),
+                PrayerData("Dhuhr", "الظهر", timings.Dhuhr, "sun_max", true),
+                PrayerData("Asr", "العصر", timings.Asr, "sun_min", true),
+                PrayerData("Maghrib", "المغرب", timings.Maghrib, "sunset", true),
+                PrayerData("Isha", "العشاء", timings.Isha, "moon_stars", true)
+            ).mapNotNull { prayerData ->
+                parseAPITime(prayerData.timeValue, date, deviceTimezone)?.let { prayerDate ->
+                    PrayerTime(
+                        prayerData.name,
+                        prayerData.arabicName,
+                        prayerDate,
+                        prayerData.icon,
+                        prayerData.isPrayer,
+                        deviceTimezone
+                    )
                 }
             }
             
@@ -245,15 +261,23 @@ class PrayerTimeService(private val context: Context) {
         val times = computePrayerTimes(jd, latitude, longitude, timezoneOffset)
         
         val prayers = listOf(
-            "Fajr" to "الفجر" to times.fajr to "sun_horizon" to true,
-            "Shuruq" to "الشروق" to times.sunrise to "sunrise" to false,
-            "Dhuhr" to "الظهر" to times.dhuhr to "sun_max" to true,
-            "Asr" to "العصر" to times.asr to "sun_min" to true,
-            "Maghrib" to "المغرب" to times.maghrib to "sunset" to true,
-            "Isha" to "العشاء" to times.isha to "moon_stars" to true
-        ).mapNotNull { (name, arabicName, time, icon, isPrayer) ->
+            PrayerData("Fajr", "الفجر", times.fajr.toString(), "sun_horizon", true),
+            PrayerData("Shuruq", "الشروق", times.sunrise.toString(), "sunrise", false),
+            PrayerData("Dhuhr", "الظهر", times.dhuhr.toString(), "sun_max", true),
+            PrayerData("Asr", "العصر", times.asr.toString(), "sun_min", true),
+            PrayerData("Maghrib", "المغرب", times.maghrib.toString(), "sunset", true),
+            PrayerData("Isha", "العشاء", times.isha.toString(), "moon_stars", true)
+        ).mapNotNull { prayerData ->
+            val time = prayerData.timeValue.toDoubleOrNull() ?: return@mapNotNull null
             timeToDate(time, date, deviceTimezone)?.let { prayerDate ->
-                PrayerTime(name, arabicName, prayerDate, icon, isPrayer, deviceTimezone)
+                PrayerTime(
+                    prayerData.name,
+                    prayerData.arabicName,
+                    prayerDate,
+                    prayerData.icon,
+                    prayerData.isPrayer,
+                    deviceTimezone
+                )
             }
         }
         
