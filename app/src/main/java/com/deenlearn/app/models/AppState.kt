@@ -1,7 +1,6 @@
 package com.deenlearn.app.models
 
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.Transient
 import java.util.Date
 
 @Serializable
@@ -11,17 +10,10 @@ enum class UserMode {
 }
 
 @Serializable
-enum class AppearanceMode {
-    SYSTEM,
-    LIGHT,
-    DARK;
-    
-    @Transient
-    val icon: String = when (this) {
-        SYSTEM -> "circle_half_filled"
-        LIGHT -> "sun_max_fill"
-        DARK -> "moon_fill"
-    }
+enum class AppearanceMode(val icon: String) {
+    SYSTEM("circle_half_filled"),
+    LIGHT("sun_max_fill"),
+    DARK("moon_fill")
 }
 
 @Serializable
