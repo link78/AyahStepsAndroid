@@ -5,6 +5,17 @@ import java.util.Date
 import java.util.UUID
 
 @Serializable
+data class Profile(
+    @Serializable(with = UUIDSerializer::class)
+    val id: UUID,
+    val name: String,
+    val age: Int,
+    val isParent: Boolean = false,
+    @Serializable(with = DateSerializer::class)
+    val createdDate: Date
+)
+
+@Serializable
 data class UserProfile(
     @Serializable(with = UUIDSerializer::class)
     val id: UUID,
