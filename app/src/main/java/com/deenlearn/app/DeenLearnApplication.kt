@@ -38,19 +38,22 @@ class DeenLearnApplication : Application() {
         instance = this
         
         // Initialize services
-        quranAPIService = QuranAPIService()
-        locationService = LocationService(this)
-        prayerTimeService = PrayerTimeService(this)
-        islamicAPIService = IslamicAPIService()
-        hadithAPIService = HadithAPIService()
-        hadithKidsDataService = HadithKidsDataService()
-        quranDataService = QuranDataService(this)
-        textToSpeechService = TextToSpeechService(this)
-        subscriptionService = SubscriptionService(this)
-        aiTutorService = AITutorService()
-        aiQuranCoachService = AIQuranCoachService()
-        aiQuestionGeneratorService = AIQuestionGeneratorService()
-        aiLearningAssistantService = AILearningAssistantService()
+        // Object singletons - direct reference (no instantiation needed)
+        quranAPIService = QuranAPIService
+        islamicAPIService = IslamicAPIService
+        hadithAPIService = HadithAPIService
+        hadithKidsDataService = HadithKidsDataService
+        aiTutorService = AITutorService
+        aiQuranCoachService = AIQuranCoachService
+        aiQuestionGeneratorService = AIQuestionGeneratorService
+        aiLearningAssistantService = AILearningAssistantService
+        
+        // Services with private constructors - use getInstance factory method
+        locationService = LocationService.getInstance(this)
+        prayerTimeService = PrayerTimeService.getInstance(this)
+        quranDataService = QuranDataService.getInstance(this)
+        textToSpeechService = TextToSpeechService.getInstance(this)
+        subscriptionService = SubscriptionService.getInstance(this)
     }
     
     override fun onTerminate() {
