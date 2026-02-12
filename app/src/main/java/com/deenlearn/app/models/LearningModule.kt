@@ -1,6 +1,5 @@
 package com.deenlearn.app.models
 
-import androidx.compose.ui.graphics.Color
 import kotlinx.serialization.Serializable
 
 @Serializable
