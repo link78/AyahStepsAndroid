@@ -1,5 +1,7 @@
 # DeenLearn Android
 
+[![Android Build](https://github.com/link78/AyahStepsAndroid/actions/workflows/android-build.yml/badge.svg)](https://github.com/link78/AyahStepsAndroid/actions/workflows/android-build.yml)
+
 DeenLearn is a comprehensive Islamic learning app that makes learning simple, visual, joyful, and accessible for every age—from 6-year-olds learning wudu (ablution) to adults memorizing the Qur'an.
 
 ## Overview
