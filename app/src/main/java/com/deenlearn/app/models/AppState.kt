@@ -220,6 +220,52 @@ enum class AgeGroup {
 }
 
 @Serializable
+data class AppState(
+    val currentMode: UserMode = UserMode.KIDS,
+    val selectedAge: Int? = null,
+    val totalPoints: Int = 0,
+    val currentStreak: Int = 0,
+    val longestStreak: Int = 0,
+    val starsEarned: Int = 0,
+    val completedLessons: Set<String> = emptySet(),
+    val earnedBadges: Set<Badge> = emptySet(),
+    val journalEntries: List<JournalEntryData> = emptyList(),
+    @Serializable(with = DateSerializer::class)
+    val lastActivityDate: Date? = null,
+    val dailyGoals: DailyGoals = DailyGoals()
+) {
+    // Nested enum for backward compatibility with AppState.UserMode
+    @Serializable
+    enum class UserMode {
+        KIDS,
+        ADULTS
+    }
+    
+    // Nested Badge class for backward compatibility with AppState.Badge
+    @Serializable
+    data class Badge(
+        val id: String,
+        val title: String,
+        val icon: String,
+        @Serializable(with = DateSerializer::class)
+        val earnedDate: Date?
+    ) {
+        val isEarned: Boolean
+            get() = earnedDate != null
+    }
+    
+    // Type alias for backward compatibility with AppState.DailyGoals
+    @Serializable
+    data class DailyGoals(
+        var quranSessionCompleted: Boolean = false,
+        var salahPractice: Boolean = false,
+        var arabicPractice: Boolean = false,
+        @Serializable(with = DateSerializer::class)
+        var lastUpdated: Date = Date()
+    )
+}
+
+@Serializable
 data class LearningProgress(
     var salahMastery: Double = 0.0,
     var quranMemorization: Double = 0.0,
@@ -233,27 +279,6 @@ data class LearningProgress(
     var currentSalahStep: Int = 1,
     var currentArabicLetter: Int = 0
 )
-
-@Serializable
-data class DailyGoal(
-    var quranSessionCompleted: Boolean = false,
-    var salahPractice: Boolean = false,
-    var arabicPractice: Boolean = false,
-    @Serializable(with = DateSerializer::class)
-    var lastUpdated: Date = Date()
-)
-
-@Serializable
-data class Badge(
-    val id: String,
-    val title: String,
-    val icon: String,
-    @Serializable(with = DateSerializer::class)
-    val earnedDate: Date?
-) {
-    val isEarned: Boolean
-        get() = earnedDate != null
-}
 
 @Serializable
 data class JournalEntryData(
@@ -272,14 +297,14 @@ object AppStateConstants {
         "ن", "ه", "و", "ي"
     )
     
-    fun createDefaultBadges(): List<Badge> = listOf(
-        Badge("first_step", "First Step", "figure_walk", null),
-        Badge("quran_starter", "Quran Starter", "book_fill", null),
-        Badge("salah_learner", "Salah Learner", "person_fill", null),
-        Badge("arabic_explorer", "Arabic Explorer", "character_textbox", null),
-        Badge("streak_master", "7-Day Streak", "flame_fill", null),
-        Badge("star_collector", "Star Collector", "star_fill", null),
-        Badge("pillar_champion", "Pillar Champion", "building_columns_fill", null),
-        Badge("dedication", "Dedicated Learner", "heart_fill", null)
+    fun createDefaultBadges(): List<AppState.Badge> = listOf(
+        AppState.Badge("first_step", "First Step", "figure_walk", null),
+        AppState.Badge("quran_starter", "Quran Starter", "book_fill", null),
+        AppState.Badge("salah_learner", "Salah Learner", "person_fill", null),
+        AppState.Badge("arabic_explorer", "Arabic Explorer", "character_textbox", null),
+        AppState.Badge("streak_master", "7-Day Streak", "flame_fill", null),
+        AppState.Badge("star_collector", "Star Collector", "star_fill", null),
+        AppState.Badge("pillar_champion", "Pillar Champion", "building_columns_fill", null),
+        AppState.Badge("dedication", "Dedicated Learner", "heart_fill", null)
     )
 }

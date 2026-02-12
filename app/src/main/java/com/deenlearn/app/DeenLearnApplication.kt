@@ -59,7 +59,7 @@ class DeenLearnApplication : Application() {
     override fun onTerminate() {
         super.onTerminate()
         textToSpeechService.shutdown()
-        locationService.stopLocationUpdates()
+        locationService.stopMonitoringLocationChanges()
     }
     
     companion object {
