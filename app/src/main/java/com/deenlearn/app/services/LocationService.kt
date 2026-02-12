@@ -228,29 +228,36 @@ class LocationService private constructor(private val context: Context) {
     private fun reverseGeocode(location: LocationData) {
         try {
             val geocoder = Geocoder(context, Locale.getDefault())
-            val addresses: List<Address>? = geocoder.getFromLocation(
-                location.latitude,
-                location.longitude,
-                1
-            )
             
-            addresses?.firstOrNull()?.let { address ->
-                val city = address.locality ?: ""
-                val country = address.countryName ?: ""
-                
-                val name = when {
-                    city.isNotEmpty() && country.isNotEmpty() -> "$city, $country"
-                    city.isNotEmpty() -> city
-                    country.isNotEmpty() -> country
-                    else -> "Location Found"
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
+                geocoder.getFromLocation(location.latitude, location.longitude, 1) { addresses ->
+                    handleGeocodedAddresses(addresses, location)
                 }
-                
-                _locationName.value = name
-                cacheLocation(location, name)
-            } ?: run {
-                _locationName.value = "Location Found"
+            } else {
+                @Suppress("DEPRECATION")
+                val addresses = geocoder.getFromLocation(location.latitude, location.longitude, 1)
+                handleGeocodedAddresses(addresses, location)
             }
         } catch (e: Exception) {
+            _locationName.value = "Location Found"
+        }
+    }
+    
+    private fun handleGeocodedAddresses(addresses: List<Address>?, location: LocationData) {
+        addresses?.firstOrNull()?.let { address ->
+            val city = address.locality ?: ""
+            val country = address.countryName ?: ""
+            
+            val name = when {
+                city.isNotEmpty() && country.isNotEmpty() -> "$city, $country"
+                city.isNotEmpty() -> city
+                country.isNotEmpty() -> country
+                else -> "Location Found"
+            }
+            
+            _locationName.value = name
+            cacheLocation(location, name)
+        } ?: run {
             _locationName.value = "Location Found"
         }
     }

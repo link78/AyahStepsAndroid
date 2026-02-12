@@ -269,7 +269,9 @@ class QuranDataService private constructor(private val context: Context) {
     
     private fun convertToArabicNumerals(number: Int): String {
         val arabicDigits = listOf("٠", "١", "٢", "٣", "٤", "٥", "٦", "٧", "٨", "٩")
-        return number.toString().map { arabicDigits[it.toString().toInt()] }.joinToString("")
+        return number.toString().mapNotNull { char ->
+            if (char.isDigit()) arabicDigits[char.toString().toInt()] else null
+        }.joinToString("")
     }
     
     // MARK: - Complete Surah List (Fallback)

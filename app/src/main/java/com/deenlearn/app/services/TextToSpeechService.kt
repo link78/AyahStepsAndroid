@@ -134,7 +134,12 @@ class TextToSpeechService private constructor(private val context: Context) {
         
         try {
             mediaPlayer = MediaPlayer().apply {
-                setAudioStreamType(AudioManager.STREAM_MUSIC)
+                setAudioAttributes(
+                    android.media.AudioAttributes.Builder()
+                        .setContentType(android.media.AudioAttributes.CONTENT_TYPE_MUSIC)
+                        .setUsage(android.media.AudioAttributes.USAGE_MEDIA)
+                        .build()
+                )
                 setDataSource(urlString)
                 
                 setOnPreparedListener {

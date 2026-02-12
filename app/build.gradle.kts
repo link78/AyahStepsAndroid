@@ -99,6 +99,17 @@ dependencies {
     // Location services
     implementation("com.google.android.gms:play-services-location:21.0.1")
     
+    // Retrofit for API calls
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("com.squareup.okhttp3:okhttp:4.11.0")
+    
+    // Gson for JSON parsing
+    implementation("com.google.code.gson:gson:2.10.1")
+    
+    // Google Play Billing for subscriptions
+    implementation("com.android.billingclient:billing-ktx:6.1.0")
+    
     // Coil for image loading
     implementation("io.coil-kt:coil-compose:2.5.0")
     
