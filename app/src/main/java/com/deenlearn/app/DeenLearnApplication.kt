@@ -32,6 +32,8 @@ class DeenLearnApplication : Application() {
         private set
     lateinit var aiLearningAssistantService: AILearningAssistantService
         private set
+    lateinit var quranAudioService: QuranAudioService
+        private set
     
     override fun onCreate() {
         super.onCreate()
@@ -54,12 +56,14 @@ class DeenLearnApplication : Application() {
         quranDataService = QuranDataService.getInstance(this)
         textToSpeechService = TextToSpeechService.getInstance(this)
         subscriptionService = SubscriptionService.getInstance(this)
+        quranAudioService = QuranAudioService.getInstance(this)
     }
     
     override fun onTerminate() {
         super.onTerminate()
         textToSpeechService.shutdown()
         locationService.stopMonitoringLocationChanges()
+        quranAudioService.release()
     }
     
     companion object {

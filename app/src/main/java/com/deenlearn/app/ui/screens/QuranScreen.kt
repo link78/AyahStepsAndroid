@@ -13,12 +13,17 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.deenlearn.app.DeenLearnApplication
 import com.deenlearn.app.models.*
+import com.deenlearn.app.services.VerseAudio
 import com.deenlearn.app.ui.components.ElevatedDeenCard
+import com.deenlearn.app.ui.components.MiniAudioPlayer
 import com.deenlearn.app.ui.components.OutlinedDeenCard
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -27,9 +32,16 @@ fun QuranScreen(
     onNavigateToSurah: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val context = LocalContext.current
+    val audioService = remember { 
+        (context.applicationContext as DeenLearnApplication).quranAudioService 
+    }
+    val currentPlaying by audioService.currentPlaying.collectAsState()
+    
     var selectedTab by remember { mutableStateOf(0) }
     var searchQuery by remember { mutableStateOf("") }
     var showSearch by remember { mutableStateOf(false) }
+    var showFullPlayer by remember { mutableStateOf(false) }
     
     val tabs = if (isKidsMode) {
         listOf("Juz Amma 📖", "Memorize 🌟", "Games 🎮")
@@ -50,50 +62,74 @@ fun QuranScreen(
                     }
                 }
             )
+        },
+        bottomBar = {
+            if (currentPlaying != null) {
+                MiniAudioPlayer(
+                    onExpand = { showFullPlayer = true }
+                )
+            }
         }
     ) { paddingValues ->
-        Column(
+        Box(
             modifier = modifier
                 .fillMaxSize()
                 .padding(paddingValues)
         ) {
-            if (showSearch) {
-                SearchBar(
-                    query = searchQuery,
-                    onQueryChange = { searchQuery = it },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp, vertical = 8.dp)
-                )
-            }
-            
-            ScrollableTabRow(
-                selectedTabIndex = selectedTab,
-                modifier = Modifier.fillMaxWidth(),
-                edgePadding = 16.dp
+            Column(
+                modifier = Modifier.fillMaxSize()
             ) {
-                tabs.forEachIndexed { index, title ->
-                    Tab(
-                        selected = selectedTab == index,
-                        onClick = { selectedTab = index },
-                        text = { Text(title) }
+                if (showSearch) {
+                    SearchBar(
+                        query = searchQuery,
+                        onQueryChange = { searchQuery = it },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp, vertical = 8.dp)
                     )
                 }
+                
+                ScrollableTabRow(
+                    selectedTabIndex = selectedTab,
+                    modifier = Modifier.fillMaxWidth(),
+                    edgePadding = 16.dp
+                ) {
+                    tabs.forEachIndexed { index, title ->
+                        Tab(
+                            selected = selectedTab == index,
+                            onClick = { selectedTab = index },
+                            text = { Text(title) }
+                        )
+                    }
+                }
+                
+                when (selectedTab) {
+                    0 -> SurahListView(
+                        isKidsMode = isKidsMode,
+                        searchQuery = searchQuery,
+                        onSurahClick = onNavigateToSurah
+                    )
+                    1 -> MemorizationView(isKidsMode = isKidsMode)
+                    2 -> if (isKidsMode) {
+                        QuranGamesView()
+                    } else {
+                        BookmarksView()
+                    }
+                    3 -> if (!isKidsMode) TajweedView()
+                }
             }
             
-            when (selectedTab) {
-                0 -> SurahListView(
-                    isKidsMode = isKidsMode,
-                    searchQuery = searchQuery,
-                    onSurahClick = onNavigateToSurah
-                )
-                1 -> MemorizationView(isKidsMode = isKidsMode)
-                2 -> if (isKidsMode) {
-                    QuranGamesView()
-                } else {
-                    BookmarksView()
+            // Full player dialog
+            if (showFullPlayer) {
+                val context2 = LocalContext.current
+                val audioService2 = remember { 
+                    (context2.applicationContext as DeenLearnApplication).quranAudioService 
                 }
-                3 -> if (!isKidsMode) TajweedView()
+                
+                com.deenlearn.app.ui.components.FullAudioPlayer(
+                    isKidsMode = isKidsMode,
+                    onDismiss = { showFullPlayer = false }
+                )
             }
         }
     }
@@ -192,8 +228,18 @@ private fun SurahCard(
     isKidsMode: Boolean,
     onClick: () -> Unit
 ) {
+    val context = LocalContext.current
+    val audioService = remember { 
+        (context.applicationContext as DeenLearnApplication).quranAudioService 
+    }
+    val scope = rememberCoroutineScope()
+    val quranAPIService = remember { 
+        (context.applicationContext as DeenLearnApplication).quranAPIService 
+    }
+    
     var showStory by remember { mutableStateOf(false) }
     val story = remember(surah.id) { QuranData.getSurahStory(surah.id) }
+    var isLoadingAudio by remember { mutableStateOf(false) }
     
     ElevatedDeenCard(
         modifier = Modifier.fillMaxWidth(),
@@ -364,9 +410,36 @@ private fun SurahCard(
                             leadingIcon = { Icon(Icons.Default.Book, null, modifier = Modifier.size(18.dp)) }
                         )
                         AssistChip(
-                            onClick = { },
-                            label = { Text("Listen") },
-                            leadingIcon = { Icon(Icons.Default.PlayArrow, null, modifier = Modifier.size(18.dp)) }
+                            onClick = {
+                                // Play full surah audio
+                                scope.launch {
+                                    isLoadingAudio = true
+                                    val result = quranAPIService.fetchSurah(surah.id)
+                                    isLoadingAudio = false
+                                    
+                                    result.onSuccess { surahDetail ->
+                                        val verseAudios = surahDetail.verses.map { verse ->
+                                            VerseAudio(
+                                                verseNumber = verse.number.inSurah,
+                                                audioUrl = verse.audio.primary
+                                            )
+                                        }
+                                        audioService.playSurah(
+                                            audioUrls = verseAudios,
+                                            surahId = surah.id,
+                                            surahName = surah.name
+                                        )
+                                    }
+                                }
+                            },
+                            label = { Text(if (isLoadingAudio) "Loading..." else "Listen") },
+                            leadingIcon = { 
+                                if (isLoadingAudio) {
+                                    CircularProgressIndicator(modifier = Modifier.size(18.dp), strokeWidth = 2.dp)
+                                } else {
+                                    Icon(Icons.Default.PlayArrow, null, modifier = Modifier.size(18.dp))
+                                }
+                            }
                         )
                     }
                 }
