@@ -1,6 +1,7 @@
 package com.deenlearn.app.services
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
@@ -126,6 +127,7 @@ class LocationService private constructor(private val context: Context) {
             return@suspendCancellableCoroutine
         }
         
+        @SuppressLint("MissingPermission")
         fusedLocationClient.lastLocation
             .addOnSuccessListener { location ->
                 cont.resume(location)
