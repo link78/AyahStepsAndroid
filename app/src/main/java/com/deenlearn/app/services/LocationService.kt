@@ -121,13 +121,13 @@ class LocationService private constructor(private val context: Context) {
         }
     }
     
+    @SuppressLint("MissingPermission")
     private suspend fun getLastKnownLocation(): Location? = suspendCancellableCoroutine { cont ->
         if (!hasLocationPermission()) {
             cont.resume(null)
             return@suspendCancellableCoroutine
         }
         
-        @SuppressLint("MissingPermission")
         fusedLocationClient.lastLocation
             .addOnSuccessListener { location ->
                 cont.resume(location)
