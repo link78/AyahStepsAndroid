@@ -326,6 +326,9 @@ private fun LearnCard(pillar: PillarInfo, onClick: () -> Unit) {
 
 @Composable
 private fun StoriesView(pillars: List<PillarInfo>) {
+    val allStories = remember { PillarData.getAllStories() }
+    var expandedStory by remember { mutableStateOf<String?>(null) }
+    
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
         contentPadding = PaddingValues(16.dp),
@@ -355,8 +358,99 @@ private fun StoriesView(pillars: List<PillarInfo>) {
             }
         }
         
-        items(pillars) { pillar ->
-            StoryCard(pillar = pillar)
+        allStories.forEach { (pillarName, stories) ->
+            item {
+                Text(
+                    text = "$pillarName Stories",
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(vertical = 8.dp)
+                )
+            }
+            
+            items(stories) { story ->
+                StoryDetailCard(
+                    story = story,
+                    isExpanded = expandedStory == story.id,
+                    onToggleExpand = {
+                        expandedStory = if (expandedStory == story.id) null else story.id
+                    }
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun StoryDetailCard(
+    story: StoryEpisode,
+    isExpanded: Boolean,
+    onToggleExpand: () -> Unit
+) {
+    ElevatedDeenCard(
+        modifier = Modifier.fillMaxWidth(),
+        onClick = onToggleExpand
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(12.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = story.emoji,
+                    style = MaterialTheme.typography.displaySmall
+                )
+                Column(modifier = Modifier.weight(1f)) {
+                    Text(
+                        text = story.title,
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.Bold
+                    )
+                    Text(
+                        text = "Narrated by ${story.narrator} • ${story.duration / 60} min",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+                Icon(
+                    imageVector = if (isExpanded) Icons.Default.ExpandLess else Icons.Default.ExpandMore,
+                    contentDescription = if (isExpanded) "Collapse" else "Expand",
+                    tint = MaterialTheme.colorScheme.primary
+                )
+            }
+            
+            if (isExpanded) {
+                HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
+                Text(
+                    text = story.content,
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    lineHeight = MaterialTheme.typography.bodyMedium.lineHeight * 1.5f
+                )
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 8.dp),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    AssistChip(
+                        onClick = { },
+                        label = { Text("Play Audio") },
+                        leadingIcon = { Icon(Icons.Default.PlayArrow, null, modifier = Modifier.size(18.dp)) }
+                    )
+                    AssistChip(
+                        onClick = { },
+                        label = { Text("Share") },
+                        leadingIcon = { Icon(Icons.Default.Share, null, modifier = Modifier.size(18.dp)) }
+                    )
+                }
+            }
         }
     }
 }

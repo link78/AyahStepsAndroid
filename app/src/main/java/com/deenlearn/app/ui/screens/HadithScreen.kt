@@ -121,44 +121,16 @@ private fun SearchBar(
 
 @Composable
 private fun KidsHadithStoriesView(onStoryClick: (String) -> Unit) {
-    val kidsHadiths = remember {
-        listOf(
-            KidsHadith(
-                "1", "😊", "The Smiling Prophet",
-                "تَبَسُّمُكَ فِي وَجْهِ أَخِيكَ صَدَقَةٌ",
-                "Smiling at someone is charity! The Prophet ﷺ loved to smile.",
-                "The Prophet ﷺ smiled so much that his friends said his face was like the full moon!",
-                "Tirmidhi", 1956, "Tirmidhi 1956"
-            ),
-            KidsHadith(
-                "2", "🤝", "Being Kind to Others",
-                "مَنْ لَا يَرْحَمُ لَا يُرْحَمُ",
-                "Be kind to everyone! If you're kind, Allah will be kind to you.",
-                "The Prophet ﷺ was so kind that even animals loved him!",
-                "Bukhari", 5997, "Bukhari 5997"
-            ),
-            KidsHadith(
-                "3", "🙏", "Thank You Allah",
-                "الْحَمْدُ لِلَّهِ",
-                "Always say 'Alhamdulillah' (Thank you Allah) for everything!",
-                "Even when the Prophet ﷺ woke up, he thanked Allah for a new day!",
-                "Muslim", 2702, "Muslim 2702"
-            ),
-            KidsHadith(
-                "4", "🌳", "Planting Trees",
-                "مَا مِنْ مُسْلِمٍ يَغْرِسُ غَرْسًا",
-                "Plant a tree, even if tomorrow is the end of the world!",
-                "Trees give us shade, fruits, and oxygen. Taking care of nature is worship!",
-                "Bukhari", 2320, "Bukhari 2320"
-            ),
-            KidsHadith(
-                "5", "💝", "Love Your Parents",
-                "الْجَنَّةُ تَحْتَ أَقْدَامِ الْأُمَّهَاتِ",
-                "Paradise is under the feet of your mother. Love and respect your parents!",
-                "The Prophet ﷺ said being good to parents is one of the best deeds!",
-                "Nasai", 3104, "Nasai 3104"
-            )
-        )
+    val kidsHadiths = remember { HadithData.kidsHadithList }
+    val categories = remember { HadithData.kidsHadithCategories.keys.toList() }
+    var selectedCategory by remember { mutableStateOf<String?>(null) }
+    
+    val displayHadiths = remember(selectedCategory) {
+        if (selectedCategory != null) {
+            HadithData.getHadithsByCategory(selectedCategory!!)
+        } else {
+            kidsHadiths
+        }
     }
     
     LazyColumn(
@@ -190,7 +162,30 @@ private fun KidsHadithStoriesView(onStoryClick: (String) -> Unit) {
             }
         }
         
-        items(kidsHadiths) { hadith ->
+        // Category filters
+        item {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 8.dp),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                FilterChip(
+                    selected = selectedCategory == null,
+                    onClick = { selectedCategory = null },
+                    label = { Text("All") }
+                )
+                categories.forEach { category ->
+                    FilterChip(
+                        selected = selectedCategory == category,
+                        onClick = { selectedCategory = category },
+                        label = { Text(category) }
+                    )
+                }
+            }
+        }
+        
+        items(displayHadiths) { hadith ->
             KidsHadithCard(hadith = hadith, onClick = { onStoryClick(hadith.id) })
         }
     }
