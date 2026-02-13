@@ -137,6 +137,21 @@ class LocationService private constructor(private val context: Context) {
             }
     }
     
+    /**
+     * Helper method to safely request location updates after permission verification
+     */
+    @SuppressLint("MissingPermission")
+    private fun safeRequestLocationUpdates(
+        locationRequest: LocationRequest,
+        locationCallback: LocationCallback
+    ) {
+        fusedLocationClient.requestLocationUpdates(
+            locationRequest,
+            locationCallback,
+            Looper.getMainLooper()
+        )
+    }
+    
     private suspend fun requestNewLocation(): Boolean = suspendCancellableCoroutine { cont ->
         if (!hasLocationPermission()) {
             cont.resume(false)
@@ -163,11 +178,7 @@ class LocationService private constructor(private val context: Context) {
         
         // Explicit permission check required by lint before sensitive API call
         if (hasLocationPermission()) {
-            fusedLocationClient.requestLocationUpdates(
-                locationRequest,
-                locationCallback!!,
-                Looper.getMainLooper()
-            )
+            safeRequestLocationUpdates(locationRequest, locationCallback!!)
         } else {
             cont.resume(false)
         }
