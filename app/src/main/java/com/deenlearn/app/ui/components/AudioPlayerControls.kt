@@ -1,6 +1,7 @@
 package com.deenlearn.app.ui.components
 
 import androidx.compose.animation.core.*
+import androidx.compose.animation.core.RepeatMode as AnimationRepeatMode
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -402,7 +403,7 @@ private fun AnimatedPlayingIndicator(isPlaying: Boolean) {
         targetValue = 1.2f,
         animationSpec = infiniteRepeatable(
             animation = tween(600),
-            repeatMode = RepeatMode.Reverse
+            repeatMode = AnimationRepeatMode.Reverse
         ),
         label = "scale"
     )
