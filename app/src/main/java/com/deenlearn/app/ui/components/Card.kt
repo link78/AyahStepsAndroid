@@ -9,6 +9,7 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DeenCard(
     modifier: Modifier = Modifier,
