@@ -22,6 +22,8 @@ import androidx.compose.ui.unit.dp
 import com.deenlearn.app.models.*
 import com.deenlearn.app.ui.components.ElevatedDeenCard
 import com.deenlearn.app.ui.components.OutlinedDeenCard
+import com.deenlearn.app.ui.components.SmallSpeakerButton
+import com.deenlearn.app.ui.components.SpeakerButton
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -210,14 +212,18 @@ private fun LetterCard(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.spacedBy(4.dp)
             ) {
-                IconButton(onClick = { }) {
-                    Icon(
-                        imageVector = Icons.Default.VolumeUp,
-                        contentDescription = "Pronounce",
-                        tint = MaterialTheme.colorScheme.primary
+                if (isKidsMode) {
+                    SmallSpeakerButton(
+                        text = "${letter.name}. ${letter.pronunciation}. ${letter.exampleWord}",
+                        contentDescription = "Pronounce letter",
+                        isArabic = true
                     )
-                }
-                if (!isKidsMode) {
+                } else {
+                    SpeakerButton(
+                        text = "${letter.name}. ${letter.pronunciation}",
+                        contentDescription = "Pronounce letter",
+                        isArabic = true
+                    )
                     Text(
                         text = "Forms",
                         style = MaterialTheme.typography.labelSmall,

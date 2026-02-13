@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import com.deenlearn.app.models.*
 import com.deenlearn.app.ui.components.ElevatedDeenCard
 import com.deenlearn.app.ui.components.OutlinedDeenCard
+import com.deenlearn.app.ui.components.SmallSpeakerButton
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -197,43 +198,64 @@ private fun KidsHadithCard(hadith: KidsHadith, onClick: () -> Unit) {
         modifier = Modifier.fillMaxWidth(),
         onClick = onClick
     ) {
-        Row(
+        Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp),
-            horizontalArrangement = Arrangement.spacedBy(16.dp),
-            verticalAlignment = Alignment.Top
+            verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            Text(
-                text = hadith.emoji,
-                style = MaterialTheme.typography.displayMedium
-            )
-            
-            Column(
-                modifier = Modifier.weight(1f),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(16.dp),
+                verticalAlignment = Alignment.Top
             ) {
                 Text(
-                    text = hadith.title,
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold
+                    text = hadith.emoji,
+                    style = MaterialTheme.typography.displayMedium
                 )
-                Text(
-                    text = hadith.simpleMeaning,
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-                Surface(
-                    color = MaterialTheme.colorScheme.primaryContainer,
-                    shape = MaterialTheme.shapes.small
+                
+                Column(
+                    modifier = Modifier.weight(1f),
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     Text(
-                        text = "Fun Fact: ${hadith.funFact}",
-                        style = MaterialTheme.typography.bodySmall,
-                        modifier = Modifier.padding(8.dp),
-                        color = MaterialTheme.colorScheme.onPrimaryContainer
+                        text = hadith.title,
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.Bold
                     )
+                    Text(
+                        text = hadith.simpleMeaning,
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                    Surface(
+                        color = MaterialTheme.colorScheme.primaryContainer,
+                        shape = MaterialTheme.shapes.small
+                    ) {
+                        Text(
+                            text = "Fun Fact: ${hadith.funFact}",
+                            style = MaterialTheme.typography.bodySmall,
+                            modifier = Modifier.padding(8.dp),
+                            color = MaterialTheme.colorScheme.onPrimaryContainer
+                        )
+                    }
                 }
+            }
+            
+            // Speaker buttons row
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                SmallSpeakerButton(
+                    text = hadith.arabicText,
+                    contentDescription = "Listen to Arabic",
+                    isArabic = true
+                )
+                SmallSpeakerButton(
+                    text = hadith.simpleMeaning,
+                    contentDescription = "Listen to meaning"
+                )
             }
         }
     }

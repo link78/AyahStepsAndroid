@@ -17,6 +17,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.deenlearn.app.models.*
 import com.deenlearn.app.ui.components.ElevatedDeenCard
+import com.deenlearn.app.ui.components.SmallSpeakerButton
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -439,10 +440,9 @@ private fun StoryDetailCard(
                         .padding(top = 8.dp),
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    AssistChip(
-                        onClick = { },
-                        label = { Text("Play Audio") },
-                        leadingIcon = { Icon(Icons.Default.PlayArrow, null, modifier = Modifier.size(18.dp)) }
+                    SmallSpeakerButton(
+                        text = story.content,
+                        contentDescription = "Listen to story"
                     )
                     AssistChip(
                         onClick = { },

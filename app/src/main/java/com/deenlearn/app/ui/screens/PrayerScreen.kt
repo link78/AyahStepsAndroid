@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import com.deenlearn.app.models.*
 import com.deenlearn.app.ui.components.ElevatedDeenCard
 import com.deenlearn.app.ui.components.OutlinedDeenCard
+import com.deenlearn.app.ui.components.SmallSpeakerButton
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -180,11 +181,19 @@ private fun WuduStepCard(
                 )
             }
             
-            Icon(
-                imageVector = Icons.Default.PlayArrow,
-                contentDescription = "Watch",
-                tint = MaterialTheme.colorScheme.primary
-            )
+            if (isKidsMode) {
+                SmallSpeakerButton(
+                    text = "$name. $arabic",
+                    contentDescription = "Listen to step",
+                    isArabic = false
+                )
+            } else {
+                Icon(
+                    imageVector = Icons.Default.PlayArrow,
+                    contentDescription = "Watch",
+                    tint = MaterialTheme.colorScheme.primary
+                )
+            }
         }
     }
 }
