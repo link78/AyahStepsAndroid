@@ -120,6 +120,7 @@ private fun SearchBar(
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun KidsHadithStoriesView(onStoryClick: (String) -> Unit) {
     val kidsHadiths = remember { HadithData.kidsHadithList }
