@@ -205,11 +205,7 @@ class LocationService private constructor(private val context: Context) {
         
         // Explicit permission check required by lint before calling requestLocationUpdates
         if (hasLocationPermission()) {
-            fusedLocationClient.requestLocationUpdates(
-                locationRequest,
-                locationCallback!!,
-                Looper.getMainLooper()
-            )
+            safeRequestLocationUpdates(locationRequest, locationCallback!!)
         }
     }
     
