@@ -13,7 +13,8 @@ data class Surah(
     val verseCount: Int,
     val juz: List<Int>,
     val page: Int,
-    val rukus: Int
+    val rukus: Int,
+    val tafsir: SurahTafsir? = null
 ) {
     val kidsEmoji: String
         get() = when (id) {
@@ -35,6 +36,35 @@ data class Surah(
             else -> "📜"
         }
 }
+
+@Serializable
+data class SurahTafsir(
+    val overview: String,
+    val themes: List<String>,
+    val context: SurahContext,
+    val keyVerses: List<KeyVerse>,
+    val linguisticFeatures: List<String>,
+    val practicalLessons: List<String>,
+    val reflectionQuestions: List<String>,
+    val memorizationTips: List<String>
+)
+
+@Serializable
+data class SurahContext(
+    val period: String,
+    val occasion: String,
+    val audience: String,
+    val mainPurpose: String
+)
+
+@Serializable
+data class KeyVerse(
+    val verseNumber: Int,
+    val arabic: String,
+    val translation: String,
+    val commentary: String,
+    val application: String
+)
 
 @Serializable
 enum class RevelationType {
@@ -369,4 +399,161 @@ object QuranData {
     )
     
     fun getSurahStory(surahId: Int): SurahStory? = surahStories[surahId]
+    
+    // Adult Tafsir Content for Major Surahs
+    val surahTafsirs = mapOf(
+        1 to SurahTafsir(
+            overview = """
+                Al-Fatiha (The Opening) is the greatest surah of the Quran according to authentic hadith. It is called 'Umm al-Kitab' (Mother of the Book) and 'As-Sab' al-Mathani' (The Seven Oft-Repeated Verses). 
+                
+                This surah is the foundation of the relationship between the servant and the Lord. It contains three fundamental elements: praise and glorification of Allah, acknowledgment of His exclusive right to be worshipped and sought for help, and supplication for guidance.
+                
+                The Prophet ﷺ said: "By Him in Whose Hand my soul is! Nothing like it (Al-Fatiha) has been revealed in the Torah, the Gospel, the Zabur, nor in the Furqan (Quran)." [Tirmidhi]
+            """.trimIndent(),
+            themes = listOf(
+                "Tawheed: Oneness of Allah in His names, attributes, and worship",
+                "Divine attributes: The Most Merciful, Master of the Day of Judgment",
+                "Exclusive worship and exclusive seeking of help belong to Allah alone",
+                "The importance of being guided to the Straight Path",
+                "Warning against deviation: the path of those who earned anger and went astray"
+            ),
+            context = SurahContext(
+                period = "Meccan period",
+                occasion = "Early revelation, established as a pillar of Salah",
+                audience = "All believers and seekers of truth",
+                mainPurpose = "To establish the framework of proper worship and supplication to Allah"
+            ),
+            keyVerses = listOf(
+                KeyVerse(
+                    verseNumber = 5,
+                    arabic = "إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ",
+                    translation = "You alone we worship, and You alone we ask for help.",
+                    commentary = "This verse represents the core of Tawheed. By saying 'You ALONE we worship,' we affirm that no one shares in Allah's divinity. 'We ask for help' acknowledges our absolute need for Allah and our complete inability without Him. The pronoun 'we' indicates communal worship, emphasizing the importance of unity in faith.",
+                    application = "In every action, especially worship, check your intention - are you doing it for Allah alone? In every difficulty, turn first to Allah before turning to creation."
+                ),
+                KeyVerse(
+                    verseNumber = 6,
+                    arabic = "اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ",
+                    translation = "Guide us to the straight path.",
+                    commentary = "We ask for guidance at least 17 times daily in our prayers because guidance is not a one-time event but a continuous need. The straight path is the path of true knowledge and righteous deeds, balanced between extremes.",
+                    application = "Before making decisions, recite Al-Fatiha with focus and ask Allah to guide you. Study the lives of the righteous who walked this path successfully."
+                ),
+                KeyVerse(
+                    verseNumber = 7,
+                    arabic = "صِرَاطَ الَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ الْمَغْضُوبِ عَلَيْهِمْ وَلَا الضَّالِّينَ",
+                    translation = "The path of those upon whom You have bestowed favor, not of those who have earned anger or of those who are astray.",
+                    commentary = "Allah clarifies the straight path by defining who walked it (the prophets, truthful ones, martyrs, and righteous) and who deviated from it. 'Those who earned anger' refers to people who knew the truth but rejected it out of arrogance (traditionally understood as Jews who rejected Jesus and Muhammad). 'Those who are astray' refers to people who deviated due to ignorance and misguidance (traditionally understood as Christians who deviated in their understanding of Jesus).",
+                    application = "Study the lives of prophets and companions. Avoid the two extremes: arrogance that prevents accepting truth, and ignorance that leads to innovation in religion."
+                )
+            ),
+            linguisticFeatures = listOf(
+                "The word 'Ar-Rahman' (Most Merciful) appears after 'Bismillah' and again in verse 3, emphasizing Allah's mercy as His dominant attribute",
+                "The shift from third person (Him) to second person (You) in verse 5 indicates increased intimacy in the conversation with Allah",
+                "The use of plural 'we' throughout indicates communal identity and shared responsibility in worship",
+                "The structure mirrors a complete conversation: Opening with praise → Acknowledging need → Making request → Specifying the request"
+            ),
+            practicalLessons = listOf(
+                "Begin everything with 'Bismillah' (In the name of Allah) following the pattern of Al-Fatiha",
+                "Balance praise of Allah with your requests - don't only make dua when in need",
+                "Reflect on each phrase when reciting in Salah - the Prophet described prayer as a conversation between you and Allah",
+                "Recognize that guidance is an ongoing journey, not a destination - even the guided need to ask for more guidance",
+                "Study both the correct path and the deviant paths to protect yourself from going astray"
+            ),
+            reflectionQuestions = listOf(
+                "Do you truly believe that Allah alone deserves worship, or do you sometimes seek approval, validation, or help from creation as if they have independent power?",
+                "When you say 'Guide us to the straight path,' what specific guidance are you seeking in your current life circumstances?",
+                "Are you actively learning about the straight path through studying Quran, Hadith, and the lives of righteous predecessors?",
+                "Have you identified any areas where you might be following either 'those who earned anger' (rejecting truth you know) or 'those who are astray' (following innovation)?",
+                "How can you increase your khushu' (consciousness) when reciting this surah 17+ times daily in your prayers?"
+            ),
+            memorizationTips = listOf(
+                "Already memorized by most Muslims! Focus now on understanding each word's meaning",
+                "Learn the sentence structure: Praise (1-4) → Worship (5) → Request (6-7)",
+                "Connect each verse to a practical application in your daily life",
+                "Reflect on one verse per day and write your thoughts about it",
+                "Listen to different reciters to appreciate the various allowed styles of recitation"
+            )
+        ),
+        112 to SurahTafsir(
+            overview = """
+                Surah Al-Ikhlas (The Sincerity/The Purity) is described by the Prophet ﷺ as equivalent to one-third of the Quran. It was revealed in response to polytheists who asked, "Describe your Lord to us."
+                
+                This surah presents the purest description of Allah's nature and attributes, refuting all forms of shirk (polytheism), anthropomorphism (giving Allah human attributes), and false beliefs about divinity. In just four verses, it establishes the complete concept of Tawheed.
+                
+                The Prophet ﷺ said: "Read 'Qul Huwallahu Ahad' because it is equivalent to one-third of the Quran." [Bukhari]
+            """.trimIndent(),
+            themes = listOf(
+                "Absolute Oneness of Allah (Tawheed)",
+                "Allah's complete self-sufficiency (He needs nothing)",
+                "Negation of any beginning or end to Allah's existence",
+                "Absolute uniqueness - nothing and no one is comparable to Allah",
+                "Refutation of shirk in all its forms"
+            ),
+            context = SurahContext(
+                period = "Meccan period",
+                occasion = "Revealed in response to polytheists questioning about Allah's nature",
+                audience = "Response to polytheists, but guidance for all believers",
+                mainPurpose = "To establish pure Tawheed and refute all forms of shirk and false beliefs about Allah"
+            ),
+            keyVerses = listOf(
+                KeyVerse(
+                    verseNumber = 1,
+                    arabic = "قُلْ هُوَ اللَّهُ أَحَدٌ",
+                    translation = "Say, 'He is Allah, [who is] One.'",
+                    commentary = "'Ahad' (One) is stronger than 'Wahid' (one). It means One in His essence, attributes, and actions - there is no division, multiplication, or partnership in His divinity. This is not merely numerical oneness but absolute uniqueness in every aspect.",
+                    application = "In every act of worship, consciously affirm that you're doing it for Allah alone. Check if you're seeking anyone's pleasure alongside Allah's pleasure."
+                ),
+                KeyVerse(
+                    verseNumber = 2,
+                    arabic = "اللَّهُ الصَّمَدُ",
+                    translation = "Allah, the Eternal Refuge.",
+                    commentary = "'As-Samad' has multiple meanings: The Master who is resorted to in times of need; The One who is perfect in all His attributes; The One who needs nothing while everything needs Him; The Self-Sufficient. All creation depends on Him, but He depends on nothing.",
+                    application = "In times of need, turn directly to Allah before turning to anyone else. Remember that while we can seek help from others as means, only Allah has independent power to help."
+                ),
+                KeyVerse(
+                    verseNumber = 3,
+                    arabic = "لَمْ يَلِدْ وَلَمْ يُولَدْ",
+                    translation = "He neither begets nor is born.",
+                    commentary = "This negates Christian beliefs about God having a son, and Arab polytheistic beliefs about angels being Allah's daughters. Being born implies having a beginning, and giving birth implies need and imperfection. Allah is free from all such deficiencies.",
+                    application = "Understand that the Islamic concept of God is fundamentally different from other religions. Never use expressions that imply Allah has family relationships."
+                ),
+                KeyVerse(
+                    verseNumber = 4,
+                    arabic = "وَلَمْ يَكُن لَّهُ كُفُوًا أَحَدٌ",
+                    translation = "Nor is there to Him any equivalent.",
+                    commentary = "Nothing in creation resembles Allah in His essence, attributes, or actions. This negates all forms of comparison, anthropomorphism, and attempts to understand Allah through human concepts or created things.",
+                    application = "When you read about Allah's attributes in Quran (Hand, Face, etc.), affirm them without trying to understand 'how' or comparing them to creation."
+                )
+            ),
+            linguisticFeatures = listOf(
+                "'Qul' (Say) is a command to the Prophet to proclaim this, emphasizing the importance of verbally affirming Tawheed",
+                "The definite article 'Al' in 'Al-Ahad' emphasizes exclusivity and uniqueness",
+                "Negative particles 'Lam' (did not) emphasize eternal negation - these things never happened and will never happen",
+                "The word order in Arabic places maximum emphasis on the negation and uniqueness of Allah"
+            ),
+            practicalLessons = listOf(
+                "Recite this surah regularly to purify your concept of Tawheed from any subtle forms of shirk",
+                "Use this surah as a test: Can you explain Islam's concept of God to a non-Muslim using these four verses?",
+                "Before sleeping, recite this surah three times for protection and reward",
+                "Teach this surah to children early, as it establishes the foundation of Islamic belief",
+                "Reflect on the completeness: This surah answers 'Who is Allah?' with perfect precision in just four verses"
+            ),
+            reflectionQuestions = listOf(
+                "Do you have any beliefs about Allah that contradict His absolute uniqueness and perfection?",
+                "Are there any created things or people you turn to with the level of hope and fear that should only be for Allah?",
+                "Do you truly believe Allah needs absolutely nothing, or do you sometimes think your worship benefits Him?",
+                "How would you explain the concept of Tawheed to a non-Muslim using this surah?",
+                "Are there any innovations in your worship that imply others share in Allah's divinity?"
+            ),
+            memorizationTips = listOf(
+                "Only 4 verses! Memorize in one sitting",
+                "Understand each word's deep meaning - this aids retention",
+                "Connect each verse to a particular false belief it refutes",
+                "Recite it in every prayer for one week to cement it",
+                "Teach it to someone else - teaching reinforces memorization"
+            )
+        )
+    )
+    
+    fun getSurahTafsir(surahId: Int): SurahTafsir? = surahTafsirs[surahId]
 }
