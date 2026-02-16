@@ -21,6 +21,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.deenlearn.app.ui.screens.MainScreen
+import com.deenlearn.app.ui.screens.PillarDetailScreen
 import com.deenlearn.app.ui.screens.WelcomeScreen
 
 @Composable
@@ -60,10 +61,9 @@ fun NavGraph(
             arguments = listOf(navArgument("pillarId") { type = NavType.StringType })
         ) { backStackEntry ->
             val pillarId = backStackEntry.arguments?.getString("pillarId")
-            // Placeholder - will be implemented later
-            PlaceholderDetailScreen(
-                title = "Pillar Details",
-                id = pillarId ?: "",
+            PillarDetailScreen(
+                pillarId = pillarId ?: "",
+                isKidsMode = isKidsMode,
                 onBack = { navController.popBackStack() }
             )
         }
