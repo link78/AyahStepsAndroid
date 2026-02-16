@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import com.deenlearn.app.models.*
 import com.deenlearn.app.ui.components.ElevatedDeenCard
 import com.deenlearn.app.ui.components.SmallSpeakerButton
+import com.deenlearn.app.ui.navigation.Screen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -157,7 +158,7 @@ private fun PillarsOverviewView(
             PillarCard(
                 pillar = pillar,
                 isKidsMode = isKidsMode,
-                onClick = { onPillarClick(pillar.id) }
+                onClick = { onPillarClick(Screen.PillarDetail.createRoute(pillar.id)) }
             )
         }
     }
@@ -255,7 +256,7 @@ private fun PillarsLearnView(
         }
         
         items(pillars) { pillar ->
-            LearnCard(pillar = pillar, onClick = { onPillarClick(pillar.id) })
+            LearnCard(pillar = pillar, onClick = { onPillarClick(Screen.PillarDetail.createRoute(pillar.id)) })
         }
     }
 }
