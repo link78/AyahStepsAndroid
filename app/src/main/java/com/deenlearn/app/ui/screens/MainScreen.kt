@@ -9,6 +9,14 @@ import com.deenlearn.app.ui.components.DeenBottomNavBar
 import com.deenlearn.app.ui.components.DeenTopBar
 import com.deenlearn.app.ui.navigation.TabDestination
 
+// Import actual screen implementations
+import com.deenlearn.app.ui.screens.PillarsScreen as ActualPillarsScreen
+import com.deenlearn.app.ui.screens.QuranScreen as ActualQuranScreen
+import com.deenlearn.app.ui.screens.PrayerScreen as ActualPrayerScreen
+import com.deenlearn.app.ui.screens.HadithScreen as ActualHadithScreen
+import com.deenlearn.app.ui.screens.ArabicScreen as ActualArabicScreen
+import com.deenlearn.app.ui.screens.ProfileScreen as ActualProfileScreen
+
 @Composable
 fun MainScreen(
     isKidsMode: Boolean,
@@ -39,26 +47,26 @@ fun MainScreen(
                     isKidsMode = isKidsMode,
                     onNavigateToDetail = onNavigateToDetail
                 )
-                TabDestination.PILLARS.route -> PillarsScreen(
+                TabDestination.PILLARS.route -> ActualPillarsScreen(
                     isKidsMode = isKidsMode,
                     onNavigateToDetail = onNavigateToDetail
                 )
-                TabDestination.QURAN.route -> QuranScreen(
+                TabDestination.QURAN.route -> ActualQuranScreen(
                     isKidsMode = isKidsMode,
                     onNavigateToDetail = onNavigateToDetail
                 )
-                TabDestination.PRAYER.route -> PrayerScreen(
+                TabDestination.PRAYER.route -> ActualPrayerScreen(
                     isKidsMode = isKidsMode,
                     onNavigateToDetail = onNavigateToDetail
                 )
-                TabDestination.ARABIC.route -> ArabicScreen(
+                TabDestination.ARABIC.route -> ActualArabicScreen(
                     isKidsMode = isKidsMode,
                     onNavigateToDetail = onNavigateToDetail
                 )
-                TabDestination.PROFILE.route -> ProfileScreen(
+                TabDestination.PROFILE.route -> ActualProfileScreen(
                     isKidsMode = isKidsMode
                 )
-                TabDestination.HADITH.route -> HadithScreen(
+                TabDestination.HADITH.route -> ActualHadithScreen(
                     isKidsMode = isKidsMode,
                     onNavigateToDetail = onNavigateToDetail
                 )
@@ -77,105 +85,5 @@ private fun getScreenTitle(route: String): String {
         TabDestination.PROFILE.route -> "My Profile"
         TabDestination.HADITH.route -> "Hadith"
         else -> "DeenLearn"
-    }
-}
-
-@Composable
-private fun PillarsScreen(
-    isKidsMode: Boolean,
-    onNavigateToDetail: (String) -> Unit
-) {
-    PlaceholderScreen(
-        title = "Five Pillars of Islam",
-        description = "Learn about the fundamental practices of Islam"
-    )
-}
-
-@Composable
-private fun QuranScreen(
-    isKidsMode: Boolean,
-    onNavigateToDetail: (String) -> Unit
-) {
-    PlaceholderScreen(
-        title = "Quran",
-        description = "Read, listen, and learn the Holy Quran"
-    )
-}
-
-@Composable
-private fun PrayerScreen(
-    isKidsMode: Boolean,
-    onNavigateToDetail: (String) -> Unit
-) {
-    PlaceholderScreen(
-        title = "Prayer Times",
-        description = "View prayer times and learn how to pray"
-    )
-}
-
-@Composable
-private fun ArabicScreen(
-    isKidsMode: Boolean,
-    onNavigateToDetail: (String) -> Unit
-) {
-    PlaceholderScreen(
-        title = "Learn Arabic",
-        description = "Master the language of the Quran"
-    )
-}
-
-@Composable
-private fun ProfileScreen(
-    isKidsMode: Boolean
-) {
-    PlaceholderScreen(
-        title = "My Profile",
-        description = "Track your progress and achievements"
-    )
-}
-
-@Composable
-private fun HadithScreen(
-    isKidsMode: Boolean,
-    onNavigateToDetail: (String) -> Unit
-) {
-    PlaceholderScreen(
-        title = "Hadith",
-        description = "Study the teachings of Prophet Muhammad (PBUH)"
-    )
-}
-
-@Composable
-private fun PlaceholderScreen(
-    title: String,
-    description: String
-) {
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        contentAlignment = androidx.compose.ui.Alignment.Center
-    ) {
-        Column(
-            horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            Text(
-                text = title,
-                style = MaterialTheme.typography.headlineMedium,
-                color = MaterialTheme.colorScheme.primary
-            )
-            Text(
-                text = description,
-                style = MaterialTheme.typography.bodyLarge,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                textAlign = androidx.compose.ui.text.style.TextAlign.Center
-            )
-            Text(
-                text = "Coming soon...",
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
-        }
     }
 }
