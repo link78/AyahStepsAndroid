@@ -4,6 +4,7 @@ import kotlinx.serialization.Serializable
 import java.util.Date
 import java.util.UUID
 
+
 @Serializable
 data class Profile(
     @Serializable(with = UUIDSerializer::class)
@@ -96,7 +97,7 @@ data class ChildProfile(
     var parentalControlsEnabled: Boolean,
     var totalStars: Int,
     var totalBadges: Int,
-    var achievements: List<Achievement>
+    var achievementIds: List<String> = emptyList() // Achievement IDs from RewardSystem
 ) {
     val dailyGoalProgress: Double
         get() = if (dailyGoalMinutes > 0) {
@@ -182,37 +183,9 @@ enum class GoalCategory {
         }
 }
 
-@Serializable
-data class Achievement(
-    @Serializable(with = UUIDSerializer::class)
-    val id: UUID,
-    var title: String,
-    var description: String,
-    var icon: String,
-    var category: AchievementCategory,
-    @Serializable(with = DateSerializer::class)
-    var earnedAt: Date?,
-    var isEarned: Boolean,
-    var requirement: String
-)
-
-@Serializable
-enum class AchievementCategory {
-    QURAN,
-    PRAYER,
-    ARABIC,
-    PILLARS,
-    STREAK;
-    
-    val displayName: String
-        get() = when (this) {
-            QURAN -> "Qur'an"
-            PRAYER -> "Prayer"
-            ARABIC -> "Arabic"
-            PILLARS -> "Pillars"
-            STREAK -> "Streaks"
-        }
-}
+// Note: Achievement and AchievementCategory removed - using versions from RewardSystem.kt
+// If you need user-specific achievement tracking with timestamps, create a separate
+// UserAchievement data class that references Achievement from RewardSystem
 
 @Serializable
 data class Bookmark(

@@ -49,7 +49,8 @@ data class Achievement(
     val category: AchievementCategory,
     val requirement: String, // Description of what's needed
     val points: Int,
-    val isSecret: Boolean = false
+    val isSecret: Boolean = false,
+    val isEarned: Boolean = false
 )
 
 @Serializable
