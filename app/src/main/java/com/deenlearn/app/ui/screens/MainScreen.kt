@@ -49,11 +49,11 @@ fun MainScreen(
                 )
                 TabDestination.PILLARS.route -> ActualPillarsScreen(
                     isKidsMode = isKidsMode,
-                    onNavigateToDetail = onNavigateToDetail
+                    onNavigateToPillar = onNavigateToDetail
                 )
                 TabDestination.QURAN.route -> ActualQuranScreen(
                     isKidsMode = isKidsMode,
-                    onNavigateToDetail = onNavigateToDetail
+                    onNavigateToSurah = { surahId -> onNavigateToDetail(surahId.toString()) }
                 )
                 TabDestination.PRAYER.route -> ActualPrayerScreen(
                     isKidsMode = isKidsMode,
@@ -61,7 +61,7 @@ fun MainScreen(
                 )
                 TabDestination.ARABIC.route -> ActualArabicScreen(
                     isKidsMode = isKidsMode,
-                    onNavigateToDetail = onNavigateToDetail
+                    onNavigateToLesson = onNavigateToDetail
                 )
                 TabDestination.PROFILE.route -> ActualProfileScreen(
                     isKidsMode = isKidsMode
