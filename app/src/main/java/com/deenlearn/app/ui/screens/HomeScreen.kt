@@ -7,11 +7,14 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.deenlearn.app.services.PrayerTimeService
+import com.deenlearn.app.services.LocationService
 import com.deenlearn.app.ui.components.ElevatedDeenCard
 import com.deenlearn.app.ui.components.FeatureCard
 import com.deenlearn.app.ui.navigation.Screen
@@ -21,6 +24,20 @@ fun HomeScreen(
     isKidsMode: Boolean,
     onNavigateToDetail: (String) -> Unit
 ) {
+    val context = LocalContext.current
+    val prayerTimeService = remember { PrayerTimeService.getInstance(context) }
+    val locationService = remember { LocationService.getInstance(context) }
+    
+    val prayerTimes by prayerTimeService.prayerTimes.collectAsState()
+    val nextPrayer by prayerTimeService.nextPrayer.collectAsState()
+    val timeUntilNext by prayerTimeService.timeUntilNextPrayer.collectAsState()
+    val hijriDate by prayerTimeService.hijriDate.collectAsState()
+    val locationName by locationService.locationName.collectAsState()
+    val isLoadingPrayer by prayerTimeService.isLoading.collectAsState()
+    val qiblaDirection by prayerTimeService.qiblaDirection.collectAsState()
+    
+    var showQiblaDialog by remember { mutableStateOf(false) }
+    
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
@@ -32,13 +49,27 @@ fun HomeScreen(
         }
         
         item {
+            PrayerTimesCard(
+                nextPrayer = nextPrayer,
+                timeUntilNext = timeUntilNext,
+                prayerTimes = prayerTimes,
+                hijriDate = hijriDate,
+                locationName = locationName,
+                isLoading = isLoadingPrayer,
+                isKidsMode = isKidsMode,
+                onQiblaClick = { showQiblaDialog = true }
+            )
+        }
+        
+        item {
             DailyProgressCard(isKidsMode = isKidsMode)
         }
         
         item {
             QuickActionsSection(
                 isKidsMode = isKidsMode,
-                onNavigateToDetail = onNavigateToDetail
+                onNavigateToDetail = onNavigateToDetail,
+                onQiblaClick = { showQiblaDialog = true }
             )
         }
         
@@ -56,6 +87,14 @@ fun HomeScreen(
         item {
             Spacer(modifier = Modifier.height(16.dp))
         }
+    }
+    
+    if (showQiblaDialog) {
+        QiblaCompassDialog(
+            qiblaDirection = qiblaDirection,
+            locationName = locationName,
+            onDismiss = { showQiblaDialog = false }
+        )
     }
 }
 
@@ -180,9 +219,296 @@ private fun ProgressItem(
 }
 
 @Composable
+private fun PrayerTimesCard(
+    nextPrayer: com.deenlearn.app.services.PrayerTime?,
+    timeUntilNext: String,
+    prayerTimes: List<com.deenlearn.app.services.PrayerTime>,
+    hijriDate: String,
+    locationName: String,
+    isLoading: Boolean,
+    isKidsMode: Boolean,
+    onQiblaClick: () -> Unit
+) {
+    ElevatedDeenCard(
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            // Header with Qibla button
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Column {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.WatchLater,
+                            contentDescription = "Prayer Times",
+                            tint = MaterialTheme.colorScheme.primary
+                        )
+                        Text(
+                            text = if (isKidsMode) "🕌 Prayer Times" else "Prayer Times",
+                            style = MaterialTheme.typography.titleLarge,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
+                    if (locationName.isNotEmpty()) {
+                        Text(
+                            text = "📍 $locationName",
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+                }
+                
+                // Qibla Compass Button
+                FilledTonalButton(
+                    onClick = onQiblaClick,
+                    modifier = Modifier.height(36.dp)
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Explore,
+                        contentDescription = "Qibla",
+                        modifier = Modifier.size(18.dp)
+                    )
+                    Spacer(modifier = Modifier.width(4.dp))
+                    Text("Qibla", style = MaterialTheme.typography.labelMedium)
+                }
+            }
+            
+            if (hijriDate.isNotEmpty()) {
+                Text(
+                    text = "📅 $hijriDate",
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
+            
+            Divider()
+            
+            // Next Prayer Highlight
+            if (nextPrayer != null) {
+                Card(
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = CardDefaults.cardColors(
+                        containerColor = MaterialTheme.colorScheme.primaryContainer
+                    )
+                ) {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(12.dp),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Column {
+                            Text(
+                                text = "Next Prayer",
+                                style = MaterialTheme.typography.labelSmall,
+                                color = MaterialTheme.colorScheme.onPrimaryContainer
+                            )
+                            Text(
+                                text = if (isKidsMode) 
+                                    "${nextPrayer.name} ${getEmojiForPrayer(nextPrayer.name)}"
+                                else 
+                                    "${nextPrayer.name} - ${nextPrayer.arabicName}",
+                                style = MaterialTheme.typography.titleMedium,
+                                fontWeight = FontWeight.Bold,
+                                color = MaterialTheme.colorScheme.onPrimaryContainer
+                            )
+                        }
+                        Column(horizontalAlignment = Alignment.End) {
+                            Text(
+                                text = timeUntilNext,
+                                style = MaterialTheme.typography.headlineSmall,
+                                fontWeight = FontWeight.Bold,
+                                color = MaterialTheme.colorScheme.primary
+                            )
+                            Text(
+                                text = nextPrayer.formattedTime(),
+                                style = MaterialTheme.typography.bodyMedium,
+                                color = MaterialTheme.colorScheme.onPrimaryContainer
+                            )
+                        }
+                    }
+                }
+            }
+            
+            // All Prayer Times
+            if (prayerTimes.isNotEmpty()) {
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    prayerTimes.filter { it.isPrayer }.forEach { prayer ->
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(vertical = 4.dp),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Row(
+                                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Text(
+                                    text = getEmojiForPrayer(prayer.name),
+                                    style = MaterialTheme.typography.titleMedium
+                                )
+                                Column {
+                                    Text(
+                                        text = prayer.name,
+                                        style = MaterialTheme.typography.bodyMedium,
+                                        fontWeight = FontWeight.Medium
+                                    )
+                                    if (!isKidsMode) {
+                                        Text(
+                                            text = prayer.arabicName,
+                                            style = MaterialTheme.typography.bodySmall,
+                                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                                        )
+                                    }
+                                }
+                            }
+                            Text(
+                                text = prayer.formattedTime(),
+                                style = MaterialTheme.typography.titleMedium,
+                                fontWeight = FontWeight.Bold,
+                                color = if (prayer == nextPrayer) 
+                                    MaterialTheme.colorScheme.primary 
+                                else 
+                                    MaterialTheme.colorScheme.onSurface
+                            )
+                        }
+                    }
+                }
+            } else if (isLoading) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(24.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    CircularProgressIndicator()
+                }
+            }
+        }
+    }
+}
+
+private fun getEmojiForPrayer(prayerName: String): String {
+    return when (prayerName.lowercase()) {
+        "fajr" -> "🌅"
+        "dhuhr" -> "☀️"
+        "asr" -> "🌤️"
+        "maghrib" -> "🌆"
+        "isha" -> "🌙"
+        else -> "🕌"
+    }
+}
+
+@Composable
+private fun QiblaCompassDialog(
+    qiblaDirection: Double?,
+    locationName: String,
+    onDismiss: () -> Unit
+) {
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Explore,
+                    contentDescription = "Qibla",
+                    tint = MaterialTheme.colorScheme.primary
+                )
+                Text("Qibla Direction")
+            }
+        },
+        text = {
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                if (qiblaDirection != null) {
+                    // Compass visualization
+                    Box(
+                        modifier = Modifier
+                            .size(200.dp)
+                            .padding(16.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Navigation,
+                            contentDescription = "Qibla Direction",
+                            modifier = Modifier.size(120.dp),
+                            tint = MaterialTheme.colorScheme.primary
+                        )
+                    }
+                    
+                    Text(
+                        text = "${qiblaDirection.toInt()}° from North",
+                        style = MaterialTheme.typography.headlineMedium,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                    
+                    Text(
+                        text = "Direction to Ka'bah, Makkah",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                    
+                    if (locationName.isNotEmpty()) {
+                        Text(
+                            text = "From: $locationName",
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+                    
+                    Divider(modifier = Modifier.padding(vertical = 8.dp))
+                    
+                    Text(
+                        text = "📱 Tip: For best results, lay your phone flat and rotate yourself until the compass needle points towards the Ka'bah direction.",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                } else {
+                    CircularProgressIndicator()
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(
+                        text = "Calculating Qibla direction...",
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                }
+            }
+        },
+        confirmButton = {
+            TextButton(onClick = onDismiss) {
+                Text("Close")
+            }
+        }
+    )
+}
+
+@Composable
 private fun QuickActionsSection(
     isKidsMode: Boolean,
-    onNavigateToDetail: (String) -> Unit
+    onNavigateToDetail: (String) -> Unit,
+    onQiblaClick: () -> Unit
 ) {
     Column(
         verticalArrangement = Arrangement.spacedBy(12.dp)
@@ -197,6 +523,13 @@ private fun QuickActionsSection(
             horizontalArrangement = Arrangement.spacedBy(12.dp),
             contentPadding = PaddingValues(horizontal = 0.dp)
         ) {
+            item {
+                QuickActionCard(
+                    title = "Qibla Compass",
+                    icon = Icons.Default.Explore,
+                    onClick = onQiblaClick
+                )
+            }
             item {
                 QuickActionCard(
                     title = "Prayer Times",
