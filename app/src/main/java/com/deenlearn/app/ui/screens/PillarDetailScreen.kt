@@ -29,7 +29,7 @@ fun PillarDetailScreen(
     onBack: () -> Unit
 ) {
     val pillar = remember(pillarId) {
-        PillarData.getAllPillars().find { it.id == pillarId }
+        PillarData.getPillarById(pillarId)
     }
     
     if (pillar == null) {
@@ -705,7 +705,7 @@ private fun ScenarioCard(scenario: Scenario) {
             // Answer (if expanded)
             if (isExpanded) {
                 Spacer(modifier = Modifier.height(12.dp))
-                HorizontalDivider()
+                Divider()
                 Spacer(modifier = Modifier.height(12.dp))
                 Text(
                     text = scenario.answer,
