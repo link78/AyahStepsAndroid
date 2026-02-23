@@ -5,6 +5,13 @@ plugins {
     id("org.jetbrains.kotlin.plugin.serialization")
 }
 
+// Load API keys from local.properties
+val localProperties = java.util.Properties()
+val localPropertiesFile = rootProject.file("local.properties")
+if (localPropertiesFile.exists()) {
+    localPropertiesFile.inputStream().use { localProperties.load(it) }
+}
+
 android {
     namespace = "com.deenlearn.app"
     compileSdk = 34
@@ -20,6 +27,13 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+        
+        // Add API keys to BuildConfig
+        buildConfigField("String", "GEMINI_API_KEY", "\"${localProperties.getProperty("gemini.api.key", "")}\"")
+    }
+    
+    buildFeatures {
+        buildConfig = true
     }
 
     buildTypes {
