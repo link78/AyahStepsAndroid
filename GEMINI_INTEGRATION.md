@@ -4,20 +4,27 @@
 
 This implementation integrates Google's Gemini AI API into the DeenLearn app, providing advanced natural language processing capabilities for Islamic education.
 
-## ⚠️ Security Notice
+## ✅ Security Update - Key Has Been Revoked
 
-**IMPORTANT**: The API key provided was shared publicly and should be **revoked immediately** after this implementation. 
+**GOOD NEWS**: The previously exposed API key has been successfully revoked (correct security action!).
 
-### Steps to Secure Your API Key:
+### What This Means:
 
-1. **Revoke the exposed key**: 
+The old key `AIzaSyBLGrGhS2hq3HGtBnmUoYwGzeD53qhtQBY` is **no longer valid** and cannot be used.
+
+### Action Required for Users:
+
+⚠️ **You MUST generate your OWN API key** - Do not try to use the old revoked key.
+
+1. **Get YOUR own new key**:
    - Go to [Google AI Studio](https://makersuite.google.com/app/apikey)
-   - Delete the key: `AIzaSyBLGrGhS2hq3HGtBnmUoYwGzeD53qhtQBY`
+   - Click "Create API Key"
+   - Copy YOUR new key
 
-2. **Generate a new key**:
-   - Create a new API key in Google AI Studio
-   - Update `local.properties` with the new key
+2. **Add to local.properties**:
+   - Update `local.properties` with YOUR new key
    - Never share or commit this key
+   - Keep it secure and private
 
 ## Setup Instructions
 
@@ -30,14 +37,20 @@ This implementation integrates Google's Gemini AI API into the DeenLearn app, pr
 
 ### 2. Configure API Key Locally
 
+⚠️ **IMPORTANT**: You need to generate YOUR OWN API key. The example key is revoked and will NOT work.
+
 Create or edit `local.properties` file in the project root:
 
 ```properties
-# Google Gemini API Key
+# Google Gemini API Key (Get your FREE key at https://makersuite.google.com/app/apikey)
 gemini.api.key=YOUR_NEW_API_KEY_HERE
 ```
 
-**Important**: This file is already in `.gitignore` and will NOT be committed to git.
+**Security Reminders**:
+- This file is already in `.gitignore` and will NOT be committed to git
+- Never share your API key publicly
+- Generate your own key from Google AI Studio
+- The old example key has been revoked and won't work
 
 ### 3. Build Configuration
 
