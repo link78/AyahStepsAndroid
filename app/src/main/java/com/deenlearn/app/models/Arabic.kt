@@ -14,7 +14,16 @@ data class ArabicLetter(
     val pronunciation: String,
     val exampleWord: String,
     val exampleTranslation: String,
-    val exampleIcon: String
+    val exampleIcon: String,
+    val tracingStrokes: Int = 1,
+    val tracingPoints: List<TracingPoint> = emptyList()
+)
+
+@Serializable
+data class TracingPoint(
+    val x: Float,
+    val y: Float,
+    val isControl: Boolean = false
 )
 
 @Serializable
@@ -220,6 +229,230 @@ object ArabicData {
         VocabularyCategory.ANIMALS -> animalWords
         VocabularyCategory.FEELINGS -> feelingWords
         VocabularyCategory.NATURE -> natureWords
+    }
+    
+    // Concept Maps for Visual Learning
+    val salahConceptMap = ConceptMap(
+        title = "Salah - Islamic Prayer",
+        arabicTitle = "الصلاة",
+        icon = "🕌",
+        colorHex = "#4CAF50",
+        nodes = listOf(
+            ConceptNode("Salah", "صَلَاة", "🤲", "The five daily prayers", 0.5f, 0.1f),
+            ConceptNode("Fajr", "فَجْر", "🌅", "Dawn prayer - 2 rakats", 0.2f, 0.3f),
+            ConceptNode("Dhuhr", "ظُهْر", "☀️", "Noon prayer - 4 rakats", 0.5f, 0.3f),
+            ConceptNode("Asr", "عَصْر", "🌤️", "Afternoon prayer - 4 rakats", 0.8f, 0.3f),
+            ConceptNode("Maghrib", "مَغْرِب", "🌆", "Sunset prayer - 3 rakats", 0.35f, 0.5f),
+            ConceptNode("Isha", "عِشَاء", "🌙", "Night prayer - 4 rakats", 0.65f, 0.5f),
+            ConceptNode("Qiyam", "قِيَام", "🧍", "Standing position", 0.2f, 0.7f),
+            ConceptNode("Ruku", "رُكُوع", "🙇", "Bowing position", 0.4f, 0.7f),
+            ConceptNode("Sujud", "سُجُود", "🧎", "Prostration", 0.6f, 0.7f),
+            ConceptNode("Tashahhud", "تَشَهُّد", "☝️", "Testimony position", 0.8f, 0.7f),
+            ConceptNode("Takbir", "تَكْبِير", "🙌", "Allahu Akbar", 0.3f, 0.9f),
+            ConceptNode("Taslim", "تَسْلِيم", "👋", "Peace greeting - Assalamu Alaikum", 0.7f, 0.9f)
+        ),
+        connections = listOf(
+            ConceptConnection(0, 1, "includes"),
+            ConceptConnection(0, 2, "includes"),
+            ConceptConnection(0, 3, "includes"),
+            ConceptConnection(0, 4, "includes"),
+            ConceptConnection(0, 5, "includes"),
+            ConceptConnection(1, 6, "starts with"),
+            ConceptConnection(6, 7, "then"),
+            ConceptConnection(7, 8, "then"),
+            ConceptConnection(8, 9, "ends with"),
+            ConceptConnection(6, 10, "begins with"),
+            ConceptConnection(9, 11, "ends with")
+        )
+    )
+    
+    val wuduConceptMap = ConceptMap(
+        title = "Wudu - Ablution",
+        arabicTitle = "الوُضُوء",
+        icon = "💧",
+        colorHex = "#2196F3",
+        nodes = listOf(
+            ConceptNode("Wudu", "وُضُوء", "💧", "Ritual purification before prayer", 0.5f, 0.1f),
+            ConceptNode("Intention", "نِيَّة", "💭", "Niyyah - Mental intention", 0.5f, 0.25f),
+            ConceptNode("Bismillah", "بِسْمِ اللّٰهِ", "🤲", "Say: In the name of Allah", 0.5f, 0.35f),
+            ConceptNode("Wash Hands", "غَسْلُ الْيَدَيْنِ", "✋", "Wash both hands 3 times", 0.25f, 0.5f),
+            ConceptNode("Rinse Mouth", "مَضْمَضَة", "👄", "Rinse mouth 3 times", 0.4f, 0.55f),
+            ConceptNode("Rinse Nose", "اسْتِنْشَاق", "👃", "Sniff water into nose 3 times", 0.6f, 0.55f),
+            ConceptNode("Wash Face", "غَسْلُ الْوَجْهِ", "😊", "Wash face 3 times", 0.75f, 0.5f),
+            ConceptNode("Wash Arms", "غَسْلُ الذِّرَاعَيْنِ", "💪", "Wash arms to elbows 3 times", 0.2f, 0.7f),
+            ConceptNode("Wipe Head", "مَسْحُ الرَّأْسِ", "👨", "Wipe head once", 0.4f, 0.7f),
+            ConceptNode("Wipe Ears", "مَسْحُ الْأُذُنَيْنِ", "👂", "Wipe inside and outside ears", 0.6f, 0.7f),
+            ConceptNode("Wash Feet", "غَسْلُ الرِّجْلَيْنِ", "🦶", "Wash feet to ankles 3 times", 0.8f, 0.7f),
+            ConceptNode("Dua", "دُعَاء", "🤲", "Supplication after wudu", 0.5f, 0.9f)
+        ),
+        connections = listOf(
+            ConceptConnection(0, 1, "starts with"),
+            ConceptConnection(1, 2, "then say"),
+            ConceptConnection(2, 3, "step 1"),
+            ConceptConnection(3, 4, "step 2"),
+            ConceptConnection(4, 5, "step 3"),
+            ConceptConnection(5, 6, "step 4"),
+            ConceptConnection(6, 7, "step 5"),
+            ConceptConnection(7, 8, "step 6"),
+            ConceptConnection(8, 9, "step 7"),
+            ConceptConnection(9, 10, "step 8"),
+            ConceptConnection(10, 11, "ends with")
+        )
+    )
+    
+    val ramadanConceptMap = ConceptMap(
+        title = "Ramadan - Holy Month",
+        arabicTitle = "رَمَضَان",
+        icon = "🌙",
+        colorHex = "#9C27B0",
+        nodes = listOf(
+            ConceptNode("Ramadan", "رَمَضَان", "🌙", "The blessed month of fasting", 0.5f, 0.1f),
+            ConceptNode("Sawm", "صَوْم", "🌙", "Fasting from dawn to sunset", 0.5f, 0.25f),
+            ConceptNode("Suhoor", "سُحُور", "🍽️", "Pre-dawn meal before fasting", 0.2f, 0.4f),
+            ConceptNode("Imsak", "إِمْسَاك", "🌅", "Time to stop eating - dawn", 0.35f, 0.5f),
+            ConceptNode("Fasting", "صِيَام", "⏰", "Abstaining from food, drink, etc.", 0.5f, 0.5f),
+            ConceptNode("Iftar", "إِفْطَار", "🥛", "Breaking fast at sunset", 0.65f, 0.5f),
+            ConceptNode("Dates", "تَمْر", "🌴", "Sunnah to break fast with dates", 0.8f, 0.4f),
+            ConceptNode("Taraweeh", "تَرَاوِيح", "🕌", "Night prayer in Ramadan", 0.2f, 0.7f),
+            ConceptNode("Quran", "قُرْآن", "📖", "Month of Quran revelation", 0.4f, 0.7f),
+            ConceptNode("Laylatul Qadr", "لَيْلَةُ الْقَدْرِ", "⭐", "Night of Power - better than 1000 months", 0.6f, 0.7f),
+            ConceptNode("Zakat", "زَكَاة", "💝", "Charity - especially Zakat al-Fitr", 0.8f, 0.7f),
+            ConceptNode("Eid", "عِيد", "🎉", "Celebration after Ramadan", 0.5f, 0.9f)
+        ),
+        connections = listOf(
+            ConceptConnection(0, 1, "is about"),
+            ConceptConnection(1, 2, "starts with"),
+            ConceptConnection(2, 3, "until"),
+            ConceptConnection(3, 4, "begins"),
+            ConceptConnection(4, 5, "ends with"),
+            ConceptConnection(5, 6, "with"),
+            ConceptConnection(1, 7, "includes"),
+            ConceptConnection(0, 8, "revealed in"),
+            ConceptConnection(0, 9, "special night"),
+            ConceptConnection(0, 10, "give"),
+            ConceptConnection(0, 11, "ends with")
+        )
+    )
+    
+    // Mini-Game Data Sets
+    val matchIconToWordGames = listOf(
+        // Salah vocabulary matching
+        MatchGameItem("🤲", "صَلَاة", "Prayer"),
+        MatchGameItem("🌅", "فَجْر", "Fajr"),
+        MatchGameItem("☀️", "ظُهْر", "Dhuhr"),
+        MatchGameItem("🌤️", "عَصْر", "Asr"),
+        MatchGameItem("🌆", "مَغْرِب", "Maghrib"),
+        MatchGameItem("🌙", "عِشَاء", "Isha"),
+        MatchGameItem("🙇", "رُكُوع", "Ruku"),
+        MatchGameItem("🧎", "سُجُود", "Sujud"),
+        // Animals
+        MatchGameItem("🐪", "جَمَل", "Camel"),
+        MatchGameItem("🦁", "أَسَد", "Lion"),
+        MatchGameItem("🐱", "قِط", "Cat"),
+        MatchGameItem("🐕", "كَلْب", "Dog"),
+        MatchGameItem("🐴", "حِصَان", "Horse"),
+        MatchGameItem("🐦", "طَائِر", "Bird"),
+        // Family
+        MatchGameItem("👨", "أَب", "Father"),
+        MatchGameItem("👩", "أُم", "Mother"),
+        MatchGameItem("👦", "أَخ", "Brother"),
+        MatchGameItem("👧", "أُخْت", "Sister"),
+        // Nature
+        MatchGameItem("☀️", "شَمْس", "Sun"),
+        MatchGameItem("🌙", "قَمَر", "Moon"),
+        MatchGameItem("⭐", "نَجْمَة", "Star"),
+        MatchGameItem("💧", "مَاء", "Water"),
+        MatchGameItem("🌳", "شَجَرَة", "Tree"),
+        MatchGameItem("🌸", "زَهْرَة", "Flower"),
+        // Feelings
+        MatchGameItem("😊", "سَعِيد", "Happy"),
+        MatchGameItem("😢", "حَزِين", "Sad"),
+        MatchGameItem("❤️", "حُب", "Love"),
+        // Masjid objects
+        MatchGameItem("🕌", "مَسْجِد", "Mosque"),
+        MatchGameItem("📖", "مُصْحَف", "Quran"),
+        MatchGameItem("📿", "سُبْحَة", "Prayer beads")
+    )
+    
+    val sentenceBuildingGames = listOf(
+        SentenceBuildGame(
+            correctSentence = listOf("أَنَا", "مُسْلِم"),
+            translation = "I am a Muslim",
+            shuffledWords = listOf("مُسْلِم", "أَنَا")
+        ),
+        SentenceBuildGame(
+            correctSentence = listOf("أَنَا", "أُحِبُّ", "اللهَ"),
+            translation = "I love Allah",
+            shuffledWords = listOf("اللهَ", "أَنَا", "أُحِبُّ")
+        ),
+        SentenceBuildGame(
+            correctSentence = listOf("الصَّلَاةُ", "مُهِمَّة"),
+            translation = "Prayer is important",
+            shuffledWords = listOf("مُهِمَّة", "الصَّلَاةُ")
+        ),
+        SentenceBuildGame(
+            correctSentence = listOf("أَنَا", "أَقْرَأُ", "الْقُرْآنَ"),
+            translation = "I read the Quran",
+            shuffledWords = listOf("الْقُرْآنَ", "أَقْرَأُ", "أَنَا")
+        ),
+        SentenceBuildGame(
+            correctSentence = listOf("هٰذَا", "مَسْجِد"),
+            translation = "This is a mosque",
+            shuffledWords = listOf("مَسْجِد", "هٰذَا")
+        ),
+        SentenceBuildGame(
+            correctSentence = listOf("الْحَمْدُ", "لِلّٰهِ"),
+            translation = "Praise be to Allah",
+            shuffledWords = listOf("لِلّٰهِ", "الْحَمْدُ")
+        ),
+        SentenceBuildGame(
+            correctSentence = listOf("أُمِّي", "طَيِّبَة"),
+            translation = "My mother is kind",
+            shuffledWords = listOf("طَيِّبَة", "أُمِّي")
+        ),
+        SentenceBuildGame(
+            correctSentence = listOf("أَبِي", "قَوِيّ"),
+            translation = "My father is strong",
+            shuffledWords = listOf("قَوِيّ", "أَبِي")
+        ),
+        SentenceBuildGame(
+            correctSentence = listOf("الشَّمْسُ", "جَمِيلَة"),
+            translation = "The sun is beautiful",
+            shuffledWords = listOf("جَمِيلَة", "الشَّمْسُ")
+        ),
+        SentenceBuildGame(
+            correctSentence = listOf("أَنَا", "أَكْتُبُ", "بِالْعَرَبِيَّةِ"),
+            translation = "I write in Arabic",
+            shuffledWords = listOf("بِالْعَرَبِيَّةِ", "أَنَا", "أَكْتُبُ")
+        )
+    )
+    
+    val soundRecognitionWords = listOf(
+        // Start with basic letters
+        VocabularyWord("أ", "Alif", "Letter Alif", "📝", VocabularyCategory.SALAH_WORDS),
+        VocabularyWord("ب", "Ba", "Letter Ba", "📝", VocabularyCategory.SALAH_WORDS),
+        VocabularyWord("ت", "Ta", "Letter Ta", "📝", VocabularyCategory.SALAH_WORDS),
+        // Then simple words
+        VocabularyWord("نَعَم", "Na'am", "Yes", "✅", VocabularyCategory.FEELINGS),
+        VocabularyWord("لَا", "La", "No", "❌", VocabularyCategory.FEELINGS),
+        VocabularyWord("شُكْرًا", "Shukran", "Thank you", "🙏", VocabularyCategory.FEELINGS),
+        VocabularyWord("سَلَام", "Salam", "Peace", "👋", VocabularyCategory.SALAH_WORDS),
+        VocabularyWord("مَاء", "Ma'", "Water", "💧", VocabularyCategory.NATURE)
+    )
+    
+    fun getConceptMap(title: String): ConceptMap? = when (title.lowercase()) {
+        "salah", "prayer" -> salahConceptMap
+        "wudu", "ablution" -> wuduConceptMap
+        "ramadan", "fasting" -> ramadanConceptMap
+        else -> null
+    }
+    
+    fun getAllConceptMaps() = listOf(salahConceptMap, wuduConceptMap, ramadanConceptMap)
+    
+    fun getGameItems(gameType: ArabicMiniGameType): List<Any> = when (gameType) {
+        ArabicMiniGameType.MATCH_ICON_TO_WORD -> matchIconToWordGames
+        ArabicMiniGameType.SOUND_RECOGNITION -> soundRecognitionWords
+        ArabicMiniGameType.BUILD_SENTENCE -> sentenceBuildingGames
     }
 }
 
