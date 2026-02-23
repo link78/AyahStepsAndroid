@@ -7,6 +7,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.deenlearn.app.ui.components.DeenBottomNavBar
 import com.deenlearn.app.ui.components.DeenTopBar
+import com.deenlearn.app.ui.navigation.Screen
 import com.deenlearn.app.ui.navigation.TabDestination
 
 // Import actual screen implementations
@@ -49,11 +50,11 @@ fun MainScreen(
                 )
                 TabDestination.PILLARS.route -> ActualPillarsScreen(
                     isKidsMode = isKidsMode,
-                    onNavigateToPillar = onNavigateToDetail
+                    onNavigateToPillar = { pillarId -> onNavigateToDetail(Screen.PillarDetail.createRoute(pillarId)) }
                 )
                 TabDestination.QURAN.route -> ActualQuranScreen(
                     isKidsMode = isKidsMode,
-                    onNavigateToSurah = { surahId -> onNavigateToDetail(surahId.toString()) }
+                    onNavigateToSurah = { surahId -> onNavigateToDetail(Screen.QuranReader.createRoute(surahId.toString())) }
                 )
                 TabDestination.PRAYER.route -> ActualPrayerScreen(
                     isKidsMode = isKidsMode,
