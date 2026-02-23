@@ -786,4 +786,459 @@ object AdultPrayerContent {
     fun getVoluntaryPrayersByCategory(category: VoluntaryPrayerCategory): List<VoluntaryPrayer> {
         return voluntaryPrayers.filter { it.category == category }
     }
+    
+    // MARK: - Duas & Adhkar Content
+    
+    val duasAfterPrayer = listOf(
+        DuaAfterPrayer(
+            id = "dua_after_1",
+            name = "Astaghfirullah (3 times)",
+            arabic = "أَسْتَغْفِرُ اللَّهَ (ثلاثًا)",
+            transliteration = "Astaghfirullah (3 times)",
+            translation = "I seek forgiveness from Allah (3 times)",
+            benefit = "Seeking Allah's forgiveness after prayer for any shortcomings",
+            timesToRecite = 3,
+            category = DuaCategory.AFTER_PRAYER,
+            source = "Sahih Muslim",
+            hadithCollection = "muslim",
+            hadithNumber = 591
+        ),
+        DuaAfterPrayer(
+            id = "dua_after_2",
+            name = "Allahumma antas-salaam",
+            arabic = "اللَّهُمَّ أَنْتَ السَّلَامُ وَمِنْكَ السَّلَامُ تَبَارَكْتَ يَا ذَا الْجَلَالِ وَالْإِكْرَامِ",
+            transliteration = "Allahumma antas-salaam wa minkas-salaam, tabaarakta yaa dhal-jalaali wal-ikraam",
+            translation = "O Allah, You are Peace and from You comes peace. Blessed are You, O Owner of majesty and honor",
+            benefit = "Seeking peace and blessings from Allah after completing prayer",
+            timesToRecite = 1,
+            category = DuaCategory.AFTER_PRAYER,
+            source = "Sahih Muslim",
+            hadithCollection = "muslim",
+            hadithNumber = 591
+        ),
+        DuaAfterPrayer(
+            id = "dua_after_3",
+            name = "La ilaha illallah wahdahu",
+            arabic = "لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ",
+            transliteration = "La ilaha illallah wahdahu la shareeka lah, lahul-mulku wa lahul-hamd, wa huwa 'ala kulli shay'in qadeer",
+            translation = "There is no deity except Allah alone, with no partner. To Him belongs the dominion and to Him is praise, and He is over all things competent",
+            benefit = "Affirming tawhid (oneness of Allah) brings immense rewards",
+            timesToRecite = 1,
+            category = DuaCategory.AFTER_PRAYER,
+            source = "Sahih Muslim",
+            hadithCollection = "muslim",
+            hadithNumber = 594
+        ),
+        DuaAfterPrayer(
+            id = "dua_after_4",
+            name = "Subhan Allah (33 times)",
+            arabic = "سُبْحَانَ اللَّهِ (٣٣)",
+            transliteration = "Subhan Allah (33 times)",
+            translation = "Glory be to Allah (33 times)",
+            benefit = "One of the most beloved acts after prayer, brings great reward",
+            timesToRecite = 33,
+            category = DuaCategory.AFTER_PRAYER,
+            source = "Sahih Muslim",
+            hadithCollection = "muslim",
+            hadithNumber = 596
+        ),
+        DuaAfterPrayer(
+            id = "dua_after_5",
+            name = "Alhamdulillah (33 times)",
+            arabic = "الْحَمْدُ لِلَّهِ (٣٣)",
+            transliteration = "Alhamdulillah (33 times)",
+            translation = "All praise is for Allah (33 times)",
+            benefit = "Praising Allah after prayer brings blessings and rewards",
+            timesToRecite = 33,
+            category = DuaCategory.AFTER_PRAYER,
+            source = "Sahih Muslim",
+            hadithCollection = "muslim",
+            hadithNumber = 596
+        ),
+        DuaAfterPrayer(
+            id = "dua_after_6",
+            name = "Allahu Akbar (33 times)",
+            arabic = "اللَّهُ أَكْبَرُ (٣٣)",
+            transliteration = "Allahu Akbar (33 times)",
+            translation = "Allah is the Greatest (33 times)",
+            benefit = "Magnifying Allah leads to forgiveness of sins",
+            timesToRecite = 33,
+            category = DuaCategory.AFTER_PRAYER,
+            source = "Sahih Muslim",
+            hadithCollection = "muslim",
+            hadithNumber = 596
+        ),
+        DuaAfterPrayer(
+            id = "dua_after_7",
+            name = "Ayat al-Kursi",
+            arabic = "اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ ۚ لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ ۚ لَهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ ۗ مَنْ ذَا الَّذِي يَشْفَعُ عِنْدَهُ إِلَّا بِإِذْنِهِ ۚ يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ ۖ وَلَا يُحِيطُونَ بِشَيْءٍ مِنْ عِلْمِهِ إِلَّا بِمَا شَاءَ ۚ وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالْأَرْضَ ۖ وَلَا يَئُودُهُ حِفْظُهُمَا ۚ وَهُوَ الْعَلِيُّ الْعَظِيمُ",
+            transliteration = "Allahu la ilaha illa huwa al-hayyul-qayyum...",
+            translation = "Allah - there is no deity except Him, the Ever-Living, the Sustainer of existence. Neither drowsiness overtakes Him nor sleep...",
+            benefit = "Reciting Ayat al-Kursi after every obligatory prayer grants entry to Paradise",
+            timesToRecite = 1,
+            category = DuaCategory.AFTER_PRAYER,
+            source = "Sunan An-Nasa'i",
+            hadithCollection = "nasai",
+            hadithNumber = 9928
+        )
+    )
+    
+    val morningAdhkar = listOf(
+        DuaAfterPrayer(
+            id = "morning_1",
+            name = "Morning Protection",
+            arabic = "أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ، لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ",
+            transliteration = "Asbahnaa wa asbahal-mulku lillah, walhamdu lillah, la ilaha illallah wahdahu la shareeka lah, lahul-mulku wa lahul-hamd, wa huwa 'ala kulli shay'in qadeer",
+            translation = "We have entered morning and the dominion belongs to Allah, and praise is to Allah. There is no deity but Allah alone, with no partner. To Him belongs the dominion, to Him is praise, and He is over all things competent",
+            benefit = "Protection and blessings for the day",
+            timesToRecite = 1,
+            category = DuaCategory.MORNING_ADHKAR,
+            source = "Sahih Muslim",
+            hadithCollection = "muslim",
+            hadithNumber = 2723
+        ),
+        DuaAfterPrayer(
+            id = "morning_2",
+            name = "Seeking Knowledge",
+            arabic = "اللَّهُمَّ إِنِّي أَسْأَلُكَ عِلْمًا نَافِعًا، وَرِزْقًا طَيِّبًا، وَعَمَلًا مُتَقَبَّلًا",
+            transliteration = "Allahumma inni as'aluka 'ilman nafi'an, wa rizqan tayyiban, wa 'amalan mutaqabbalan",
+            translation = "O Allah, I ask You for beneficial knowledge, goodly provision, and accepted deeds",
+            benefit = "Seeking Allah's blessing for beneficial knowledge and sustenance",
+            timesToRecite = 1,
+            category = DuaCategory.MORNING_ADHKAR,
+            source = "Sunan Ibn Majah",
+            hadithCollection = "ibnu-majah",
+            hadithNumber = 925
+        ),
+        DuaAfterPrayer(
+            id = "morning_3",
+            name = "Morning Wellbeing",
+            arabic = "اللَّهُمَّ إِنِّي أَصْبَحْتُ أُشْهِدُكَ وَأُشْهِدُ حَمَلَةَ عَرْشِكَ، وَمَلَائِكَتَكَ وَجَمِيعَ خَلْقِكَ، أَنَّكَ أَنْتَ اللَّهُ لَا إِلَهَ إِلَّا أَنْتَ وَحْدَكَ لَا شَرِيكَ لَكَ، وَأَنَّ مُحَمَّدًا عَبْدُكَ وَرَسُولُكَ",
+            transliteration = "Allahumma inni asbahtu ushhiduka wa ushhidu hamalata 'arshik, wa mala'ikataka wa jami'a khalqik, annaka antallahu la ilaha illa anta wahdaka la shareeka lak, wa anna Muhammadan 'abduka wa rasuluk",
+            translation = "O Allah, as I enter this morning, I call upon You, the bearers of Your Throne, Your angels and all creation to bear witness that surely You are Allah, there is no deity except You alone, with no partner, and that Muhammad is Your slave and Messenger",
+            benefit = "Allah frees a quarter of the person from Hellfire with each recitation (4 times = complete freedom)",
+            timesToRecite = 4,
+            category = DuaCategory.MORNING_ADHKAR,
+            source = "Sunan Abu Dawud",
+            hadithCollection = "abu-daud",
+            hadithNumber = 5069
+        ),
+        DuaAfterPrayer(
+            id = "morning_4",
+            name = "Ayat al-Kursi (Morning)",
+            arabic = "اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ",
+            transliteration = "Allahu la ilaha illa huwa al-hayyul-qayyum...",
+            translation = "Allah - there is no deity except Him, the Ever-Living, the Sustainer...",
+            benefit = "Protection from harm throughout the day",
+            timesToRecite = 1,
+            category = DuaCategory.MORNING_ADHKAR,
+            source = "Al-Bukhari",
+            hadithCollection = "bukhari",
+            hadithNumber = 2311
+        ),
+        DuaAfterPrayer(
+            id = "morning_5",
+            name = "Seeking Forgiveness",
+            arabic = "اللَّهُمَّ أَنْتَ رَبِّي لَا إِلَهَ إِلَّا أَنْتَ، خَلَقْتَنِي وَأَنَا عَبْدُكَ، وَأَنَا عَلَى عَهْدِكَ وَوَعْدِكَ مَا اسْتَطَعْتُ، أَعُوذُ بِكَ مِنْ شَرِّ مَا صَنَعْتُ، أَبُوءُ لَكَ بِنِعْمَتِكَ عَلَيَّ، وَأَبُوءُ بِذَنْبِي فَاغْفِرْ لِي فَإِنَّهُ لَا يَغْفِرُ الذُّنُوبَ إِلَّا أَنْتَ",
+            transliteration = "Allahumma anta rabbi la ilaha illa ant, khalaqtani wa ana 'abduk, wa ana 'ala 'ahdika wa wa'dika mastata't, a'udhu bika min sharri ma sana't, abu'u laka bini'matika 'alayy, wa abu'u bidhanbi faghfir li fa innahu la yaghfirudh-dhunuba illa ant",
+            translation = "O Allah, You are my Lord, there is no deity except You. You created me and I am Your servant, and I am on Your covenant and promise as much as I can. I seek refuge in You from the evil I have done. I acknowledge Your favor upon me, and I acknowledge my sin, so forgive me, for indeed none forgives sins except You",
+            benefit = "The Prophet ﷺ said: 'Whoever says this with firm belief in the evening and dies that night will enter Paradise, and whoever says it with firm belief in the morning and dies that day will enter Paradise'",
+            timesToRecite = 1,
+            category = DuaCategory.MORNING_ADHKAR,
+            source = "Sahih al-Bukhari",
+            hadithCollection = "bukhari",
+            hadithNumber = 6306
+        )
+    )
+    
+    val eveningAdhkar = listOf(
+        DuaAfterPrayer(
+            id = "evening_1",
+            name = "Evening Protection",
+            arabic = "أَمْسَيْنَا وَأَمْسَى الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ، لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ",
+            transliteration = "Amsayna wa amsal-mulku lillah, walhamdu lillah, la ilaha illallah wahdahu la shareeka lah, lahul-mulku wa lahul-hamd, wa huwa 'ala kulli shay'in qadeer",
+            translation = "We have entered evening and the dominion belongs to Allah, and praise is to Allah. There is no deity but Allah alone, with no partner. To Him belongs the dominion, to Him is praise, and He is over all things competent",
+            benefit = "Protection and blessings for the night",
+            timesToRecite = 1,
+            category = DuaCategory.EVENING_ADHKAR,
+            source = "Sahih Muslim",
+            hadithCollection = "muslim",
+            hadithNumber = 2723
+        ),
+        DuaAfterPrayer(
+            id = "evening_2",
+            name = "Seeking Evening Protection",
+            arabic = "اللَّهُمَّ إِنِّي أَمْسَيْتُ أُشْهِدُكَ وَأُشْهِدُ حَمَلَةَ عَرْشِكَ، وَمَلَائِكَتَكَ وَجَمِيعَ خَلْقِكَ، أَنَّكَ أَنْتَ اللَّهُ لَا إِلَهَ إِلَّا أَنْتَ وَحْدَكَ لَا شَرِيكَ لَكَ، وَأَنَّ مُحَمَّدًا عَبْدُكَ وَرَسُولُكَ",
+            transliteration = "Allahumma inni amsaytu ushhiduka wa ushhidu hamalata 'arshik, wa mala'ikataka wa jami'a khalqik, annaka antallahu la ilaha illa anta wahdaka la shareeka lak, wa anna Muhammadan 'abduka wa rasuluk",
+            translation = "O Allah, as I enter this evening, I call upon You, the bearers of Your Throne, Your angels and all creation to bear witness that surely You are Allah, there is no deity except You alone, with no partner, and that Muhammad is Your slave and Messenger",
+            benefit = "Allah frees a quarter of the person from Hellfire with each recitation (4 times = complete freedom)",
+            timesToRecite = 4,
+            category = DuaCategory.EVENING_ADHKAR,
+            source = "Sunan Abu Dawud",
+            hadithCollection = "abu-daud",
+            hadithNumber = 5069
+        ),
+        DuaAfterPrayer(
+            id = "evening_3",
+            name = "Protection from Evil",
+            arabic = "بِسْمِ اللَّهِ الَّذِي لَا يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الْأَرْضِ وَلَا فِي السَّمَاءِ وَهُوَ السَّمِيعُ الْعَلِيمُ",
+            transliteration = "Bismillahil-ladhi la yadurru ma'asmihi shay'un fil-ardi wa la fis-sama' wa huwas-sami'ul-'aleem",
+            translation = "In the name of Allah, with whose name nothing on earth or in the heaven can cause harm, and He is the All-Hearing, the All-Knowing",
+            benefit = "Whoever says this three times in the morning and evening will not be harmed by anything",
+            timesToRecite = 3,
+            category = DuaCategory.EVENING_ADHKAR,
+            source = "Sunan Abu Dawud",
+            hadithCollection = "abu-daud",
+            hadithNumber = 5088
+        ),
+        DuaAfterPrayer(
+            id = "evening_4",
+            name = "Satisfaction and Contentment",
+            arabic = "رَضِيتُ بِاللَّهِ رَبًّا، وَبِالْإِسْلَامِ دِينًا، وَبِمُحَمَّدٍ نَبِيًّا",
+            transliteration = "Raditu billahi rabban, wa bil-islami dinan, wa bi-muhammadin nabiyyan",
+            translation = "I am pleased with Allah as my Lord, with Islam as my religion, and with Muhammad as my Prophet",
+            benefit = "Paradise becomes guaranteed for whoever says this three times in the morning and evening",
+            timesToRecite = 3,
+            category = DuaCategory.EVENING_ADHKAR,
+            source = "Sunan Abu Dawud",
+            hadithCollection = "abu-daud",
+            hadithNumber = 5072
+        )
+    )
+    
+    val protectionDuas = listOf(
+        DuaAfterPrayer(
+            id = "protection_1",
+            name = "Seeking Refuge",
+            arabic = "أَعُوذُ بِكَلِمَاتِ اللَّهِ التَّامَّاتِ مِنْ شَرِّ مَا خَلَقَ",
+            transliteration = "A'udhu bikalimatillahit-tammati min sharri ma khalaq",
+            translation = "I seek refuge in the perfect words of Allah from the evil of what He has created",
+            benefit = "Protection from all harm",
+            timesToRecite = 3,
+            category = DuaCategory.PROTECTION,
+            source = "Sahih Muslim",
+            hadithCollection = "muslim",
+            hadithNumber = 2708
+        ),
+        DuaAfterPrayer(
+            id = "protection_2",
+            name = "Protection from Evil Eye",
+            arabic = "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْعَيْنِ، وَمِنْ كُلِّ دَاءٍ وَحَاسِدٍ",
+            transliteration = "Allahumma inni a'udhu bika minal-'ayn, wa min kulli da'in wa hasid",
+            translation = "O Allah, I seek refuge in You from the evil eye, from every illness and from the envier",
+            benefit = "Protection from evil eye and envy",
+            timesToRecite = 1,
+            category = DuaCategory.PROTECTION,
+            source = "Sunan Ibn Majah",
+            hadithCollection = "ibnu-majah",
+            hadithNumber = 3508
+        ),
+        DuaAfterPrayer(
+            id = "protection_3",
+            name = "Four Quls Protection",
+            arabic = "قُلْ هُوَ اللَّهُ أَحَدٌ، قُلْ أَعُوذُ بِرَبِّ الْفَلَقِ، قُلْ أَعُوذُ بِرَبِّ النَّاسِ",
+            transliteration = "Qul Huwa Allahu Ahad, Qul A'udhu bi Rabbil-Falaq, Qul A'udhu bi Rabbin-Nas",
+            translation = "Recite Surah Al-Ikhlas, Al-Falaq, and An-Nas",
+            benefit = "Complete protection from all evil when recited morning and evening",
+            timesToRecite = 3,
+            category = DuaCategory.PROTECTION,
+            source = "Sunan Abu Dawud",
+            hadithCollection = "abu-daud",
+            hadithNumber = 5082
+        )
+    )
+    
+    val travelDuas = listOf(
+        DuaAfterPrayer(
+            id = "travel_1",
+            name = "When Leaving Home",
+            arabic = "بِسْمِ اللَّهِ، تَوَكَّلْتُ عَلَى اللَّهِ، لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ",
+            transliteration = "Bismillah, tawakkaltu 'alallah, la hawla wa la quwwata illa billah",
+            translation = "In the name of Allah, I place my trust in Allah, there is no might and no power except with Allah",
+            benefit = "The Prophet ﷺ said: 'When a person says this, it will be said: You are guided, defended and protected'",
+            timesToRecite = 1,
+            category = DuaCategory.TRAVEL,
+            source = "Sunan Abu Dawud",
+            hadithCollection = "abu-daud",
+            hadithNumber = 5095
+        ),
+        DuaAfterPrayer(
+            id = "travel_2",
+            name = "When Boarding Vehicle",
+            arabic = "سُبْحَانَ الَّذِي سَخَّرَ لَنَا هَذَا وَمَا كُنَّا لَهُ مُقْرِنِينَ، وَإِنَّا إِلَى رَبِّنَا لَمُنقَلِبُونَ",
+            transliteration = "Subhanal-ladhi sakhkhara lana hadha wa ma kunna lahu muqrinin, wa inna ila rabbina lamunqalibun",
+            translation = "Glory be to Him who has provided this for us though we could never have had it by our efforts. Surely, unto our Lord we are returning",
+            benefit = "Safety and blessings during journey",
+            timesToRecite = 1,
+            category = DuaCategory.TRAVEL,
+            source = "Sunan Abu Dawud",
+            hadithCollection = "abu-daud",
+            hadithNumber = 2602
+        ),
+        DuaAfterPrayer(
+            id = "travel_3",
+            name = "Journey Protection",
+            arabic = "اللَّهُمَّ إِنَّا نَسْأَلُكَ فِي سَفَرِنَا هَذَا الْبِرَّ وَالتَّقْوَى، وَمِنَ الْعَمَلِ مَا تَرْضَى، اللَّهُمَّ هَوِّنْ عَلَيْنَا سَفَرَنَا هَذَا وَاطْوِ عَنَّا بُعْدَهُ",
+            transliteration = "Allahumma inna nas'aluka fi safarina hadhal-birra wat-taqwa, wa minal-'amali ma tarda, allahumma hawwin 'alayna safarana hadha watwi 'anna bu'dah",
+            translation = "O Allah, we ask You on this journey for goodness and piety, and for works that are pleasing to You. O Allah, make this journey easy for us and make its distance short for us",
+            benefit = "Ease and safety in travel",
+            timesToRecite = 1,
+            category = DuaCategory.TRAVEL,
+            source = "Sahih Muslim",
+            hadithCollection = "muslim",
+            hadithNumber = 1342
+        )
+    )
+    
+    val healingDuas = listOf(
+        DuaAfterPrayer(
+            id = "healing_1",
+            name = "For Illness",
+            arabic = "اللَّهُمَّ رَبَّ النَّاسِ، أَذْهِبِ الْبَأْسَ، اشْفِ أَنْتَ الشَّافِي، لَا شِفَاءَ إِلَّا شِفَاؤُكَ، شِفَاءً لَا يُغَادِرُ سَقَمًا",
+            transliteration = "Allahumma rabban-nas, adhhib al-ba's, ishfi anta ash-shafi, la shifa'a illa shifa'uk, shifaan la yughadiru saqaman",
+            translation = "O Allah, Lord of mankind, remove the harm and heal, You are the Healer. There is no healing except Your healing, a healing that leaves no illness",
+            benefit = "Complete healing from Allah",
+            timesToRecite = 3,
+            category = DuaCategory.HEALING,
+            source = "Sahih al-Bukhari",
+            hadithCollection = "bukhari",
+            hadithNumber = 5675
+        ),
+        DuaAfterPrayer(
+            id = "healing_2",
+            name = "For Pain",
+            arabic = "أَعُوذُ بِاللَّهِ وَقُدْرَتِهِ مِنْ شَرِّ مَا أَجِدُ وَأُحَاذِرُ",
+            transliteration = "A'udhu billahi wa qudratihi min sharri ma ajidu wa uhadhir",
+            translation = "I seek refuge in Allah and in His power from the evil of what I experience and what I fear",
+            benefit = "Relief from pain and suffering",
+            timesToRecite = 7,
+            category = DuaCategory.HEALING,
+            source = "Sahih Muslim",
+            hadithCollection = "muslim",
+            hadithNumber = 2202
+        ),
+        DuaAfterPrayer(
+            id = "healing_3",
+            name = "Visiting the Sick",
+            arabic = "لَا بَأْسَ، طَهُورٌ إِنْ شَاءَ اللَّهُ",
+            transliteration = "La ba's, tahoorun in sha' Allah",
+            translation = "Do not worry, it will be a purification (of sins), if Allah wills",
+            benefit = "Comfort and healing for the sick",
+            timesToRecite = 1,
+            category = DuaCategory.HEALING,
+            source = "Sahih al-Bukhari",
+            hadithCollection = "bukhari",
+            hadithNumber = 3616
+        )
+    )
+    
+    val generalDuas = listOf(
+        DuaAfterPrayer(
+            id = "general_1",
+            name = "For Entering Home",
+            arabic = "اللَّهُمَّ إِنِّي أَسْأَلُكَ خَيْرَ الْمَوْلَجِ وَخَيْرَ الْمَخْرَجِ، بِسْمِ اللَّهِ وَلَجْنَا، وَبِسْمِ اللَّهِ خَرَجْنَا، وَعَلَى اللَّهِ رَبِّنَا تَوَكَّلْنَا",
+            transliteration = "Allahumma inni as'aluka khayral-mawlaji wa khayral-makhraji, bismillahi walajna, wa bismillahi kharajna, wa 'alallahi rabbina tawakkalna",
+            translation = "O Allah, I ask You for the best entering and the best exiting. In the name of Allah we enter, in the name of Allah we exit, and upon Allah our Lord we rely",
+            benefit = "Blessings upon entering and leaving home",
+            timesToRecite = 1,
+            category = DuaCategory.GENERAL,
+            source = "Sunan Abu Dawud",
+            hadithCollection = "abu-daud",
+            hadithNumber = 5096
+        ),
+        DuaAfterPrayer(
+            id = "general_2",
+            name = "Before Eating",
+            arabic = "بِسْمِ اللَّهِ وَبَرَكَةِ اللَّهِ",
+            transliteration = "Bismillah wa barakatillah",
+            translation = "In the name of Allah and with the blessings of Allah",
+            benefit = "Prevents Satan from sharing the meal",
+            timesToRecite = 1,
+            category = DuaCategory.GENERAL,
+            source = "Sahih Muslim",
+            hadithCollection = "muslim",
+            hadithNumber = 2017
+        ),
+        DuaAfterPrayer(
+            id = "general_3",
+            name = "After Eating",
+            arabic = "الْحَمْدُ لِلَّهِ الَّذِي أَطْعَمَنِي هَذَا وَرَزَقَنِيهِ مِنْ غَيْرِ حَوْلٍ مِنِّي وَلَا قُوَّةٍ",
+            transliteration = "Alhamdu lillahil-ladhi at'amani hadha wa razaqaneehi min ghayri hawlin minni wa la quwwah",
+            translation = "All praise is to Allah who fed me this and provided it for me without any might or power from me",
+            benefit = "Past sins are forgiven",
+            timesToRecite = 1,
+            category = DuaCategory.GENERAL,
+            source = "Sunan Abu Dawud",
+            hadithCollection = "abu-daud",
+            hadithNumber = 4023
+        ),
+        DuaAfterPrayer(
+            id = "general_4",
+            name = "Before Sleeping",
+            arabic = "بِاسْمِكَ اللَّهُمَّ أَمُوتُ وَأَحْيَا",
+            transliteration = "Bismika Allahumma amutu wa ahya",
+            translation = "In Your name, O Allah, I die and I live",
+            benefit = "Protection during sleep",
+            timesToRecite = 1,
+            category = DuaCategory.GENERAL,
+            source = "Sahih al-Bukhari",
+            hadithCollection = "bukhari",
+            hadithNumber = 6324
+        ),
+        DuaAfterPrayer(
+            id = "general_5",
+            name = "Upon Waking",
+            arabic = "الْحَمْدُ لِلَّهِ الَّذِي أَحْيَانَا بَعْدَ مَا أَمَاتَنَا وَإِلَيْهِ النُّشُورُ",
+            transliteration = "Alhamdu lillahil-ladhi ahyana ba'da ma amatana wa ilayhin-nushur",
+            translation = "All praise is to Allah who gave us life after He caused us to die, and to Him is the resurrection",
+            benefit = "Gratitude for waking up alive",
+            timesToRecite = 1,
+            category = DuaCategory.GENERAL,
+            source = "Sahih al-Bukhari",
+            hadithCollection = "bukhari",
+            hadithNumber = 6312
+        ),
+        DuaAfterPrayer(
+            id = "general_6",
+            name = "Entering Mosque",
+            arabic = "اللَّهُمَّ افْتَحْ لِي أَبْوَابَ رَحْمَتِكَ",
+            transliteration = "Allahumma aftah li abwaba rahmatik",
+            translation = "O Allah, open for me the doors of Your mercy",
+            benefit = "Blessings upon entering mosque",
+            timesToRecite = 1,
+            category = DuaCategory.GENERAL,
+            source = "Sahih Muslim",
+            hadithCollection = "muslim",
+            hadithNumber = 713
+        ),
+        DuaAfterPrayer(
+            id = "general_7",
+            name = "Leaving Mosque",
+            arabic = "اللَّهُمَّ إِنِّي أَسْأَلُكَ مِنْ فَضْلِكَ",
+            transliteration = "Allahumma inni as'aluka min fadlik",
+            translation = "O Allah, I ask You from Your bounty",
+            benefit = "Seeking Allah's bounty after worship",
+            timesToRecite = 1,
+            category = DuaCategory.GENERAL,
+            source = "Sahih Muslim",
+            hadithCollection = "muslim",
+            hadithNumber = 713
+        )
+    )
+    
+    // Helper function to get all duas
+    fun getAllDuas(): List<DuaAfterPrayer> {
+        return duasAfterPrayer + morningAdhkar + eveningAdhkar + 
+               protectionDuas + travelDuas + healingDuas + generalDuas
+    }
+    
+    // Helper function to get duas by category
+    fun getDuasByCategory(category: DuaCategory): List<DuaAfterPrayer> {
+        return getAllDuas().filter { it.category == category }
+    }
+    
+    // Helper function to get dua count per category
+    fun getDuaCountByCategory(category: DuaCategory): Int {
+        return getDuasByCategory(category).size
+    }
 }
