@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">DeenLearn</string>
+    <string name="welcome_title">Welcome to DeenLearn</string>
+    <string name="kids_mode">Kids Mode</string>
+    <string name="adults_mode">Adults Mode</string>
+    <string name="location_permission_rationale">DeenLearn needs your location to calculate accurate prayer times for your area.</string>
+    <string name="notification_permission_rationale">DeenLearn needs notification permission to remind you of prayer times.</string>
+</resources>
