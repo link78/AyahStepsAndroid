@@ -314,7 +314,12 @@ object PillarData {
         worldEmoji = "🌍",
         description = "The testimony of faith - the foundation of Islamic belief",
         storyEpisodes = shahadaStories,
-        miniGames = emptyList(),
+        miniGames = listOf(
+            MiniGame("shahada_match", "Match the Shahada", MiniGameType.MATCH_PILLAR_MEANING, "Match the words of the Shahada with their meanings!", "🎯"),
+            MiniGame("shahada_fix", "Fix the Shahada", MiniGameType.FIX_BROKEN_PILLAR, "Put the words of the Shahada in the correct order!", "🔧"),
+            MiniGame("shahada_order", "Pillars in Order", MiniGameType.ORDER_THE_PILLARS, "Can you put all five pillars in the right order?", "🔢"),
+            MiniGame("shahada_quiz", "Shahada Quiz", MiniGameType.QUIZ_TIME, "Test your knowledge about the Shahada!", "❓")
+        ),
         definition = """
             The Shahada (testimony of faith) consists of two declarations:
             
@@ -431,7 +436,30 @@ object PillarData {
                 hanbali = "Emphasizes both belief in the heart and verbal testimony. Lists eight conditions including knowledge, certainty, acceptance, submission, truthfulness, sincerity, love, and rejection of all false deities."
             )
         ),
-        kidsHadiths = emptyList()
+        kidsHadiths = listOf(
+            KidsHadith(
+                id = "shahada_kids_1",
+                emoji = "☝️",
+                title = "The Best Words",
+                arabicText = "أَفْضَلُ الذِّكْرِ لَا إِلَٰهَ إِلَّا اللَّهُ",
+                simpleMeaning = "The best remembrance is 'There is no god but Allah.'",
+                funFact = "Saying 'La ilaha illallah' is the best thing you can say! It means only Allah deserves to be worshipped.",
+                collection = "Sunan al-Tirmidhi",
+                hadithNumber = 3383,
+                reference = "Narrated by Prophet Muhammad ﷺ"
+            ),
+            KidsHadith(
+                id = "shahada_kids_2",
+                emoji = "🌟",
+                title = "Key to Paradise",
+                arabicText = "مَنْ قَالَ لَا إِلَٰهَ إِلَّا اللَّهُ دَخَلَ الْجَنَّةَ",
+                simpleMeaning = "Whoever says 'There is no god but Allah' will enter Paradise.",
+                funFact = "The Shahada is like a special key that opens the door to Paradise! But you have to truly believe it in your heart.",
+                collection = "Sahih Muslim",
+                hadithNumber = 26,
+                reference = "Narrated by Prophet Muhammad ﷺ"
+            )
+        )
     )
     
     val salahAdult = Pillar(
@@ -444,7 +472,12 @@ object PillarData {
         worldEmoji = "🕌",
         description = "The ritual prayer - the connection between the servant and the Lord",
         storyEpisodes = salahStories,
-        miniGames = emptyList(),
+        miniGames = listOf(
+            MiniGame("salah_match", "Prayer Positions", MiniGameType.MATCH_PILLAR_MEANING, "Match each prayer position with its name!", "🎯"),
+            MiniGame("salah_fix", "Fix the Prayer", MiniGameType.FIX_BROKEN_PILLAR, "The prayer steps are mixed up - put them back in order!", "🔧"),
+            MiniGame("salah_order", "Prayer Times Order", MiniGameType.ORDER_THE_PILLARS, "Put the five daily prayers in the correct order!", "🔢"),
+            MiniGame("salah_quiz", "Salah Quiz", MiniGameType.QUIZ_TIME, "How much do you know about prayer?", "❓")
+        ),
         definition = """
             Salah (prayer) is the second pillar of Islam and the most important act of worship after the Shahada. It is a direct link between the worshipper and Allah, performed five times daily at prescribed times.
             
@@ -597,7 +630,30 @@ object PillarData {
                 hanbali = "Most lenient - allows combining for travel, rain, illness, hardship, and even without these conditions if needed occasionally."
             )
         ),
-        kidsHadiths = emptyList()
+        kidsHadiths = listOf(
+            KidsHadith(
+                id = "salah_kids_1",
+                emoji = "🤲",
+                title = "Prayer is Light",
+                arabicText = "الصَّلَاةُ نُورٌ",
+                simpleMeaning = "Prayer is light.",
+                funFact = "When you pray, it's like turning on a bright light inside your heart! Prayer makes you shine with goodness.",
+                collection = "Sahih Muslim",
+                hadithNumber = 223,
+                reference = "Narrated by Prophet Muhammad ﷺ"
+            ),
+            KidsHadith(
+                id = "salah_kids_2",
+                emoji = "🕌",
+                title = "Walking to the Mosque",
+                arabicText = "مَنْ غَدَا إِلَى الْمَسْجِدِ أَوْ رَاحَ أَعَدَّ اللَّهُ لَهُ نُزُلًا فِي الْجَنَّةِ",
+                simpleMeaning = "Whoever walks to the mosque, Allah prepares a place for them in Paradise.",
+                funFact = "Every step you take to the mosque is rewarded! Imagine getting stars for every single step!",
+                collection = "Sahih al-Bukhari",
+                hadithNumber = 662,
+                reference = "Narrated by Prophet Muhammad ﷺ"
+            )
+        )
     )
     
     val zakatAdult = Pillar(
@@ -610,7 +666,12 @@ object PillarData {
         worldEmoji = "🤝",
         description = "Obligatory charity - purification of wealth and soul",
         storyEpisodes = zakatStories,
-        miniGames = emptyList(),
+        miniGames = listOf(
+            MiniGame("zakat_match", "Charity Match", MiniGameType.MATCH_PILLAR_MEANING, "Match types of charity with their descriptions!", "🎯"),
+            MiniGame("zakat_fix", "Help the Community", MiniGameType.FIX_BROKEN_PILLAR, "Figure out who needs Zakat the most!", "🔧"),
+            MiniGame("zakat_order", "Giving Steps", MiniGameType.ORDER_THE_PILLARS, "Put the steps of giving Zakat in order!", "🔢"),
+            MiniGame("zakat_quiz", "Zakat Quiz", MiniGameType.QUIZ_TIME, "Test your knowledge about charity in Islam!", "❓")
+        ),
         definition = """
             Zakat is the third pillar of Islam, an obligatory annual charity given to specific categories of people. The word "Zakat" means "purification" and "growth" - it purifies wealth and the soul while promoting economic justice in society.
             
@@ -768,7 +829,30 @@ object PillarData {
                 hanbali = "Debts reduce Zakatable wealth. One calculates Zakat only on assets remaining after deducting all debts."
             )
         ),
-        kidsHadiths = emptyList()
+        kidsHadiths = listOf(
+            KidsHadith(
+                id = "zakat_kids_1",
+                emoji = "💝",
+                title = "Charity Never Decreases Wealth",
+                arabicText = "مَا نَقَصَتْ صَدَقَةٌ مِنْ مَالٍ",
+                simpleMeaning = "Charity does not decrease wealth.",
+                funFact = "When you share with others, Allah gives you even more back! It's like planting a seed that grows into a big tree of blessings!",
+                collection = "Sahih Muslim",
+                hadithNumber = 2588,
+                reference = "Narrated by Prophet Muhammad ﷺ"
+            ),
+            KidsHadith(
+                id = "zakat_kids_2",
+                emoji = "😊",
+                title = "Smiling is Charity",
+                arabicText = "تَبَسُّمُكَ فِي وَجْهِ أَخِيكَ صَدَقَةٌ",
+                simpleMeaning = "Your smile in your brother's face is charity!",
+                funFact = "You don't need money to give charity! A smile, kind words, or helping someone all count as charity in Islam!",
+                collection = "Sunan al-Tirmidhi",
+                hadithNumber = 1956,
+                reference = "Narrated by Prophet Muhammad ﷺ"
+            )
+        )
     )
     
     val sawmAdult = Pillar(
@@ -781,7 +865,12 @@ object PillarData {
         worldEmoji = "🌟",
         description = "Fasting during Ramadan - self-discipline and spiritual elevation",
         storyEpisodes = sawmStories,
-        miniGames = emptyList(),
+        miniGames = listOf(
+            MiniGame("sawm_match", "Ramadan Match", MiniGameType.MATCH_PILLAR_MEANING, "Match fasting facts with their descriptions!", "🎯"),
+            MiniGame("sawm_fix", "Fix the Fast", MiniGameType.FIX_BROKEN_PILLAR, "Learn what breaks the fast and what doesn't!", "🔧"),
+            MiniGame("sawm_order", "Ramadan Day Order", MiniGameType.ORDER_THE_PILLARS, "Put the events of a fasting day in order!", "🔢"),
+            MiniGame("sawm_quiz", "Fasting Quiz", MiniGameType.QUIZ_TIME, "How much do you know about Ramadan?", "❓")
+        ),
         definition = """
             Sawm (fasting) is the fourth pillar of Islam, obligatory during the month of Ramadan for every adult, sane Muslim who is physically able. Fasting means abstaining from food, drink, sexual relations, and sinful behavior from dawn (Fajr) until sunset (Maghrib).
             
@@ -952,7 +1041,30 @@ object PillarData {
                 hanbali = "If fearing for the baby, they feed a poor person per day and don't have to make up. If fearing for themselves, they only make up."
             )
         ),
-        kidsHadiths = emptyList()
+        kidsHadiths = listOf(
+            KidsHadith(
+                id = "sawm_kids_1",
+                emoji = "🌙",
+                title = "Ramadan Opens Paradise Gates",
+                arabicText = "إِذَا جَاءَ رَمَضَانُ فُتِحَتْ أَبْوَابُ الْجَنَّةِ",
+                simpleMeaning = "When Ramadan comes, the gates of Paradise are opened.",
+                funFact = "In Ramadan, all the gates of Paradise are wide open and the gates of Hellfire are closed! It's the most special month of the year!",
+                collection = "Sahih al-Bukhari",
+                hadithNumber = 1899,
+                reference = "Narrated by Prophet Muhammad ﷺ"
+            ),
+            KidsHadith(
+                id = "sawm_kids_2",
+                emoji = "🍽️",
+                title = "The Blessing of Suhoor",
+                arabicText = "تَسَحَّرُوا فَإِنَّ فِي السَّحُورِ بَرَكَةً",
+                simpleMeaning = "Eat suhoor (pre-dawn meal), for there is blessing in it.",
+                funFact = "Waking up early to eat before fasting is a sunnah! Even a sip of water counts as suhoor. Allah blesses that early morning meal!",
+                collection = "Sahih al-Bukhari",
+                hadithNumber = 1923,
+                reference = "Narrated by Prophet Muhammad ﷺ"
+            )
+        )
     )
     
     val hajjAdult = Pillar(
@@ -965,7 +1077,12 @@ object PillarData {
         worldEmoji = "✈️",
         description = "Pilgrimage to Makkah - the ultimate journey of submission",
         storyEpisodes = hajjStories,
-        miniGames = emptyList(),
+        miniGames = listOf(
+            MiniGame("hajj_match", "Hajj Places", MiniGameType.MATCH_PILLAR_MEANING, "Match Hajj locations with what happens there!", "🎯"),
+            MiniGame("hajj_fix", "Fix the Journey", MiniGameType.FIX_BROKEN_PILLAR, "The Hajj steps are mixed up - put them right!", "🔧"),
+            MiniGame("hajj_order", "Hajj Steps Order", MiniGameType.ORDER_THE_PILLARS, "Put the rituals of Hajj in the correct order!", "🔢"),
+            MiniGame("hajj_quiz", "Hajj Quiz", MiniGameType.QUIZ_TIME, "How much do you know about the pilgrimage?", "❓")
+        ),
         definition = """
             Hajj is the fifth pillar of Islam, an obligatory pilgrimage to the sacred city of Makkah performed during the Islamic month of Dhul-Hijjah. Every adult Muslim who is physically and financially able must perform Hajj at least once in their lifetime.
             
@@ -1160,7 +1277,30 @@ object PillarData {
                 hanbali = "Similar to Shafi'i - any presence at Arafah during the prescribed time, even momentarily, fulfills the obligation."
             )
         ),
-        kidsHadiths = emptyList()
+        kidsHadiths = listOf(
+            KidsHadith(
+                id = "hajj_kids_1",
+                emoji = "🕋",
+                title = "Hajj Wipes Away Sins",
+                arabicText = "مَنْ حَجَّ فَلَمْ يَرْفُثْ وَلَمْ يَفْسُقْ رَجَعَ كَيَوْمِ وَلَدَتْهُ أُمُّهُ",
+                simpleMeaning = "Whoever performs Hajj properly returns as pure as the day they were born.",
+                funFact = "Imagine being completely clean of all mistakes - like a brand new start! That's what a good Hajj does!",
+                collection = "Sahih al-Bukhari",
+                hadithNumber = 1521,
+                reference = "Narrated by Prophet Muhammad ﷺ"
+            ),
+            KidsHadith(
+                id = "hajj_kids_2",
+                emoji = "🤲",
+                title = "The Best Dua",
+                arabicText = "خَيْرُ الدُّعَاءِ دُعَاءُ يَوْمِ عَرَفَةَ",
+                simpleMeaning = "The best supplication is on the Day of Arafah.",
+                funFact = "The Day of Arafah is so special that Allah forgives tons of people! Pilgrims stand together and make dua to Allah.",
+                collection = "Sunan al-Tirmidhi",
+                hadithNumber = 3585,
+                reference = "Narrated by Prophet Muhammad ﷺ"
+            )
+        )
     )
     
     // Function to get all adult content
