@@ -18,7 +18,6 @@ import androidx.compose.ui.unit.dp
 import com.deenlearn.app.models.*
 import com.deenlearn.app.ui.components.ElevatedDeenCard
 import com.deenlearn.app.ui.components.SmallSpeakerButton
-import com.deenlearn.app.ui.navigation.Screen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -37,11 +36,11 @@ fun PillarsScreen(
     
     val pillars = remember {
         listOf(
-            PillarInfo("1", "Shahada", "الشهادة", "Faith", "☝️", "#4CAF50"),
-            PillarInfo("2", "Salah", "الصلاة", "Prayer", "🤲", "#2196F3"),
-            PillarInfo("3", "Zakat", "الزكاة", "Charity", "💝", "#FF9800"),
-            PillarInfo("4", "Sawm", "الصوم", "Fasting", "🌙", "#9C27B0"),
-            PillarInfo("5", "Hajj", "الحج", "Pilgrimage", "🕋", "#F44336")
+            PillarInfo("shahada", 1, "Shahada", "الشهادة", "Faith", "☝️", "#4CAF50"),
+            PillarInfo("salah", 2, "Salah", "الصلاة", "Prayer", "🤲", "#2196F3"),
+            PillarInfo("zakat", 3, "Zakat", "الزكاة", "Charity", "💝", "#FF9800"),
+            PillarInfo("sawm", 4, "Sawm", "الصوم", "Fasting", "🌙", "#9C27B0"),
+            PillarInfo("hajj", 5, "Hajj", "الحج", "Pilgrimage", "🕋", "#F44336")
         )
     }
     
@@ -94,6 +93,7 @@ fun PillarsScreen(
 
 data class PillarInfo(
     val id: String,
+    val number: Int,
     val name: String,
     val arabic: String,
     val description: String,
@@ -158,7 +158,7 @@ private fun PillarsOverviewView(
             PillarCard(
                 pillar = pillar,
                 isKidsMode = isKidsMode,
-                onClick = { onPillarClick(Screen.PillarDetail.createRoute(pillar.id)) }
+                onClick = { onPillarClick(pillar.id) }
             )
         }
     }
@@ -204,7 +204,7 @@ private fun PillarCard(
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     Text(
-                        text = pillar.id,
+                        text = pillar.number.toString(),
                         style = MaterialTheme.typography.titleSmall,
                         color = MaterialTheme.colorScheme.primary,
                         fontWeight = FontWeight.Bold
@@ -256,7 +256,7 @@ private fun PillarsLearnView(
         }
         
         items(pillars) { pillar ->
-            LearnCard(pillar = pillar, onClick = { onPillarClick(Screen.PillarDetail.createRoute(pillar.id)) })
+            LearnCard(pillar = pillar, onClick = { onPillarClick(pillar.id) })
         }
     }
 }
